@@ -1,10 +1,4 @@
-import {
-  MigrationInterface,
-  QueryRunner,
-  Table,
-  TableForeignKey,
-  TableIndex,
-} from 'typeorm';
+import { MigrationInterface, QueryRunner, Table, TableForeignKey, TableIndex } from 'typeorm';
 
 /**
  * Migration: Create Bookings Table
@@ -28,7 +22,7 @@ export class CreateBookingsTable1770184569270 implements MigrationInterface {
             default: 'uuid_generate_v4()',
           },
           {
-            name: 'tier_id',
+            name: 'ticket_tier_id',
             type: 'uuid',
             isNullable: false,
           },
@@ -65,7 +59,7 @@ export class CreateBookingsTable1770184569270 implements MigrationInterface {
       'bookings',
       new TableForeignKey({
         name: 'fk__bookings__ticket_tiers',
-        columnNames: ['tier_id'],
+        columnNames: ['ticket_tier_id'],
         referencedColumnNames: ['id'],
         referencedTableName: 'ticket_tiers',
         onDelete: 'NO ACTION',
@@ -96,8 +90,8 @@ export class CreateBookingsTable1770184569270 implements MigrationInterface {
     await queryRunner.createIndex(
       'bookings',
       new TableIndex({
-        name: 'idx__bookings__tier_id',
-        columnNames: ['tier_id'],
+        name: 'idx__bookings__ticket_tier_id',
+        columnNames: ['ticket_tier_id'],
       }),
     );
   }
@@ -106,25 +100,19 @@ export class CreateBookingsTable1770184569270 implements MigrationInterface {
     const table = await queryRunner.getTable('bookings');
 
     if (table) {
-      const tierIdForeignKey = table.foreignKeys.find(
-        (fk) => fk.columnNames.indexOf('tier_id') !== -1,
-      );
-      if (tierIdForeignKey) {
-        await queryRunner.dropForeignKey('bookings', tierIdForeignKey);
+      const ticketTierIdForeignKey = table.foreignKeys.find((fk) => fk.columnNames.indexOf('ticket_tier_id') !== -1);
+      if (ticketTierIdForeignKey) {
+        await queryRunner.dropForeignKey('bookings', ticketTierIdForeignKey);
       }
 
-      const userEmailIndex = table.indices.find(
-        (idx) => idx.columnNames.indexOf('user_email') !== -1,
-      );
+      const userEmailIndex = table.indices.find((idx) => idx.columnNames.indexOf('user_email') !== -1);
       if (userEmailIndex) {
         await queryRunner.dropIndex('bookings', userEmailIndex);
       }
 
-      const tierIdIndex = table.indices.find(
-        (idx) => idx.columnNames.indexOf('tier_id') !== -1,
-      );
-      if (tierIdIndex) {
-        await queryRunner.dropIndex('bookings', tierIdIndex);
+      const ticketTierIdIndex = table.indices.find((idx) => idx.columnNames.indexOf('ticket_tier_id') !== -1);
+      if (ticketTierIdIndex) {
+        await queryRunner.dropIndex('bookings', ticketTierIdIndex);
       }
 
       await queryRunner.dropTable('bookings');

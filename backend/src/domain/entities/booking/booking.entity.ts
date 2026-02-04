@@ -1,20 +1,12 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  CreateDateColumn,
-  ManyToOne,
-  JoinColumn,
-  Index,
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne, JoinColumn, Index } from 'typeorm';
 
-import { TicketTier } from '../ticket-tier/ticket-tier.entity';
+import { TicketTierEntity } from '../ticket-tier/ticket-tier.entity';
 
 import { IBooking } from './booking.interface';
 
 @Entity('bookings')
 @Index('idx__bookings__user_email', ['userEmail'])
-@Index('idx__bookings__tier_id', ['tierId'])
+@Index('idx__bookings__ticket_tier_id', ['ticketTierId'])
 export class BookingEntity implements IBooking {
   @PrimaryGeneratedColumn('uuid', { name: 'id' })
   id: string;
@@ -39,12 +31,12 @@ export class BookingEntity implements IBooking {
   })
   totalPrice: number;
 
-  @ManyToOne(() => TicketTier, (tier) => tier.bookings)
-  @JoinColumn({ name: 'tier_id' })
-  tier: TicketTier;
+  @ManyToOne(() => TicketTierEntity, (tier) => tier.bookings)
+  @JoinColumn({ name: 'ticket_tier_id' })
+  ticketTier?: TicketTierEntity;
 
-  @Column({ name: 'tier_id', type: 'uuid', nullable: false })
-  tierId: string;
+  @Column({ name: 'ticket_tier_id', type: 'uuid', nullable: false })
+  ticketTierId: string;
 
   @CreateDateColumn({
     name: 'created_at',

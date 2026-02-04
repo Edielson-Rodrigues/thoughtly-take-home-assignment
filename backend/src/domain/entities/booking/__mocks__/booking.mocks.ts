@@ -7,7 +7,7 @@ export class BookingMock implements IBooking {
   public readonly userEmail: string;
   public readonly quantity: number;
   public readonly totalPrice: number;
-  public readonly tierId: string;
+  public readonly ticketTierId: string;
   public readonly createdAt: Date;
 
   constructor() {
@@ -18,7 +18,7 @@ export class BookingMock implements IBooking {
       min: 10,
       max: 1000,
     });
-    this.tierId = faker.string.uuid();
+    this.ticketTierId = faker.string.uuid();
     this.createdAt = faker.date.past();
   }
 

@@ -13,7 +13,5 @@ export interface ITicketTier {
   createdAt: Date;
 }
 
-export type CreateTicketTier = Omit<
-  ITicketTier,
-  'id' | 'createdAt' | 'availableQuantity'
->;
+export type TicketTierRelations = Record<'bookings' | 'concert', boolean>;
+export type CreateTicketTier = Omit<ITicketTier, 'id' | 'createdAt' | 'availableQuantity'>;

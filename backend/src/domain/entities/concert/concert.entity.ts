@@ -1,13 +1,6 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  CreateDateColumn,
-  UpdateDateColumn,
-  OneToMany,
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
 
-import { TicketTier } from '../ticket-tier/ticket-tier.entity';
+import { TicketTierEntity } from '../ticket-tier/ticket-tier.entity';
 
 import { IConcert } from './concert.interface';
 
@@ -33,8 +26,8 @@ export class ConcertEntity implements IConcert {
   @Column({ name: 'date', type: 'timestamp', nullable: false })
   date: Date;
 
-  @OneToMany(() => TicketTier, (tier) => tier.concert)
-  ticketTiers?: TicketTier[];
+  @OneToMany(() => TicketTierEntity, (tier) => tier.concert)
+  ticketTiers?: TicketTierEntity[];
 
   @CreateDateColumn({
     name: 'created_at',

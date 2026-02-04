@@ -16,7 +16,7 @@ import { ITicketTier } from './ticket-tier.interface';
 
 @Entity('ticket_tiers')
 @Index('idx__ticket_tiers__concert_id', ['concertId'])
-export class TicketTier implements ITicketTier {
+export class TicketTierEntity implements ITicketTier {
   @PrimaryGeneratedColumn('uuid', { name: 'id' })
   id: string;
 
@@ -47,7 +47,7 @@ export class TicketTier implements ITicketTier {
   @Column({ name: 'concert_id', type: 'uuid', nullable: false })
   concertId: string;
 
-  @OneToMany(() => BookingEntity, (booking) => booking.tier)
+  @OneToMany(() => BookingEntity, (booking) => booking.ticketTier)
   bookings?: BookingEntity[];
 
   @CreateDateColumn({

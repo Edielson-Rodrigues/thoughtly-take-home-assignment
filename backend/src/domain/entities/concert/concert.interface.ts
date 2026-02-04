@@ -1,4 +1,4 @@
-import { TicketTier } from '../ticket-tier/ticket-tier.entity';
+import { TicketTierEntity } from '../ticket-tier/ticket-tier.entity';
 
 export interface IConcert {
   id: string;
@@ -6,9 +6,10 @@ export interface IConcert {
   description: string;
   location: string;
   date: Date;
-  ticketTiers?: TicketTier[];
+  ticketTiers?: TicketTierEntity[];
   createdAt: Date;
   updatedAt: Date;
 }
 
+export type ConcertRelations = Record<'ticketTiers', boolean>;
 export type CreateConcert = Omit<IConcert, 'id' | 'createdAt' | 'updatedAt'>;
