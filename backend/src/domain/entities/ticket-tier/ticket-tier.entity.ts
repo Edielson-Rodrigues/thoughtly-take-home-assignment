@@ -15,7 +15,7 @@ import { ConcertEntity } from '../concert/concert.entity';
 import { ITicketTier } from './ticket-tier.interface';
 
 @Entity('ticket_tiers')
-@Index('idx__ticket_tiers__concert_id', ['concert_id'])
+@Index('idx__ticket_tiers__concert_id', ['concertId'])
 export class TicketTier implements ITicketTier {
   @PrimaryGeneratedColumn('uuid', { name: 'id' })
   id: string;

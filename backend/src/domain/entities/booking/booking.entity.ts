@@ -13,8 +13,8 @@ import { TicketTier } from '../ticket-tier/ticket-tier.entity';
 import { IBooking } from './booking.interface';
 
 @Entity('bookings')
-@Index('idx__bookings__user_email', ['user_email'])
-@Index('idx__bookings__tier_id', ['tier_id'])
+@Index('idx__bookings__user_email', ['userEmail'])
+@Index('idx__bookings__tier_id', ['tierId'])
 export class BookingEntity implements IBooking {
   @PrimaryGeneratedColumn('uuid', { name: 'id' })
   id: string;
@@ -39,7 +39,7 @@ export class BookingEntity implements IBooking {
   })
   totalPrice: number;
 
-  @ManyToOne(() => TicketTier)
+  @ManyToOne(() => TicketTier, (tier) => tier.bookings)
   @JoinColumn({ name: 'tier_id' })
   tier: TicketTier;
 
