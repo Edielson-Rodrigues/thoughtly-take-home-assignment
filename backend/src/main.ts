@@ -1,3 +1,4 @@
+import { globalErrorHandler } from '@core/middlewares/http-exception.middleware';
 import cors from '@fastify/cors';
 import Fastify from 'fastify';
 
@@ -18,6 +19,7 @@ const bootstrap = async () => {
     await CacheProvider.connect(configService.get('cache'));
 
     await app.register(cors, { origin: true });
+    app.setErrorHandler(globalErrorHandler);
 
     const port = configService.get('app').port;
     await app.listen({ port, host: '0.0.0.0' });
