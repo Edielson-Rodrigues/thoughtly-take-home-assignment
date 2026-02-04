@@ -16,8 +16,7 @@ export class TicketTierMock implements ITicketTier {
     this.name = faker.lorem.words(2);
     this.price = faker.number.float({ min: 10, max: 500 });
     this.totalQuantity = faker.number.int({ min: 50, max: 200 });
-    this.availableQuantity =
-      this.totalQuantity - faker.number.int({ min: 0, max: 50 });
+    this.availableQuantity = this.totalQuantity - faker.number.int({ min: 0, max: 50 });
     this.concertId = faker.string.uuid();
     this.createdAt = faker.date.past();
   }

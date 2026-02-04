@@ -25,10 +25,7 @@ export class ConfigService {
 
     const parsed = rootSchema.safeParse(process.env);
     if (!parsed.success) {
-      console.error(
-        '❌ Invalid environment variables:',
-        z.treeifyError(parsed.error),
-      );
+      console.error('❌ Invalid environment variables:', z.treeifyError(parsed.error));
       throw new Error('Invalid environment variables');
     }
 

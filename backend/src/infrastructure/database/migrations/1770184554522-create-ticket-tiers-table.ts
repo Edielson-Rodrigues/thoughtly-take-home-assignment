@@ -1,10 +1,4 @@
-import {
-  MigrationInterface,
-  QueryRunner,
-  Table,
-  TableForeignKey,
-  TableIndex,
-} from 'typeorm';
+import { MigrationInterface, QueryRunner, Table, TableForeignKey, TableIndex } from 'typeorm';
 
 /**
  * Migration: Create Ticket Tiers Table
@@ -99,16 +93,12 @@ export class CreateTicketTiersTable1770184554522 implements MigrationInterface {
     const table = await queryRunner.getTable('ticket_tiers');
 
     if (table) {
-      const concertIdForeignKey = table.foreignKeys.find(
-        (fk) => fk.columnNames.indexOf('concert_id') !== -1,
-      );
+      const concertIdForeignKey = table.foreignKeys.find((fk) => fk.columnNames.indexOf('concert_id') !== -1);
       if (concertIdForeignKey) {
         await queryRunner.dropForeignKey('ticket_tiers', concertIdForeignKey);
       }
 
-      const concertIdIndex = table.indices.find(
-        (idx) => idx.columnNames.indexOf('concert_id') !== -1,
-      );
+      const concertIdIndex = table.indices.find((idx) => idx.columnNames.indexOf('concert_id') !== -1);
       if (concertIdIndex) {
         await queryRunner.dropIndex('ticket_tiers', concertIdIndex);
       }
