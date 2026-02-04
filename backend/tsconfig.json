@@ -14,6 +14,7 @@
     "paths": {
       "@app/*": ["./src/app/*"],
       "@config/*": ["./src/config/*"],
+      "@core/*": ["./src/core/*"],
       "@database/*": ["./src/infrastructure/database/*"],
       "@cache/*": ["./src/infrastructure/cache/*"],
       "@domain/*": ["./src/domain/*"],
