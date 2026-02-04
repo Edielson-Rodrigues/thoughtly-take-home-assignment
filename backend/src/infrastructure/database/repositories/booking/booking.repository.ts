@@ -3,6 +3,7 @@ import { DataSource, FindOptionsWhere, Repository } from 'typeorm';
 import { BookingEntity } from '@domain/entities/booking/booking.entity';
 import { BookingRelations, CreateBooking } from '@domain/entities/booking/booking.interface';
 import { TicketTierEntity } from '@domain/entities/ticket-tier/ticket-tier.entity';
+import { TicketTierOutOfStockException } from '@domain/errors/ticket-tier/ticket-tier-out-of-stock.exception';
 
 /**
  * BOOKING REPOSITORY
@@ -54,7 +55,7 @@ export class BookingRepository {
       // If affected == 0, it means the WHERE clause failed (stock < quantity).
       // We throw immediately to abort the transaction.
       if (updateResult.affected === 0) {
-        throw new Error('SOLD_OUT');
+        throw new TicketTierOutOfStockException();
       }
 
       // -------------------------------------------------------

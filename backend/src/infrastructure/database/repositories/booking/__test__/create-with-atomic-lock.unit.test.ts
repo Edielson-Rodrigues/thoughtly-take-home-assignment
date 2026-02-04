@@ -5,6 +5,7 @@ import { BookingEntity } from '@domain/entities/booking/booking.entity';
 import { CreateBooking } from '@domain/entities/booking/booking.interface';
 import { TicketTierMock } from '@domain/entities/ticket-tier/__mocks__/ticket-tier.mock';
 import { TicketTierEntity } from '@domain/entities/ticket-tier/ticket-tier.entity';
+import { TicketTierOutOfStockException } from '@domain/errors/ticket-tier/ticket-tier-out-of-stock.exception';
 
 import { BookingRepository } from '../booking.repository';
 
@@ -90,7 +91,9 @@ describe('Database -> Booking Repository - Create With Atomic Lock', () => {
 
       mockManager.execute.mockResolvedValueOnce(updateResult);
 
-      await expect(bookingRepository.createWithAtomicLock(createBookingData)).rejects.toThrow('SOLD_OUT');
+      await expect(bookingRepository.createWithAtomicLock(createBookingData)).rejects.toThrow(
+        TicketTierOutOfStockException,
+      );
 
       expect(mockDataSource.transaction).toHaveBeenCalledTimes(1);
       expect(mockManager.createQueryBuilder).toHaveBeenCalledTimes(1);
