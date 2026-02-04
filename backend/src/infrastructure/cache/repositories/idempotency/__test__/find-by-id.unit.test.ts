@@ -27,9 +27,7 @@ describe('Cache -> Idempotency Repository - Find By Key', () => {
 
       expect(result).toEqual(idempotencyMock);
       expect(mockRedisClient.get).toHaveBeenCalledTimes(1);
-      expect(mockRedisClient.get).toHaveBeenCalledWith(
-        `idempotency:${idempotencyMock.key}`,
-      );
+      expect(mockRedisClient.get).toHaveBeenCalledWith(`idempotency:${idempotencyMock.key}`);
     });
 
     it('should return null when key does not exist', async () => {
@@ -38,9 +36,7 @@ describe('Cache -> Idempotency Repository - Find By Key', () => {
       const result = await idempotencyRepository.findByKey('non-existent-key');
 
       expect(mockRedisClient.get).toHaveBeenCalledTimes(1);
-      expect(mockRedisClient.get).toHaveBeenCalledWith(
-        'idempotency:non-existent-key',
-      );
+      expect(mockRedisClient.get).toHaveBeenCalledWith('idempotency:non-existent-key');
       expect(result).toBeNull();
     });
   });

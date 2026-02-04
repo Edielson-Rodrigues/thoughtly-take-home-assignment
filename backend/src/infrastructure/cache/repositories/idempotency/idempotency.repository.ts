@@ -1,6 +1,7 @@
 import Redis from 'ioredis';
 
-import { Idempotency } from '../../../domain/entities/idempotency/idempotency.entity';
+import { IdempotencyMock } from '@domain/entities/idempotency/__mocks__/idempotency.mock';
+import { Idempotency } from '@domain/entities/idempotency/idempotency.entity';
 
 /**
  * IDEMPOTENCY REPOSITORY (Redis)
@@ -18,10 +19,7 @@ export class IdempotencyRepository {
 
   constructor(private readonly cacheClient: Redis) {}
 
-  async create(
-    data: Idempotency,
-    ttlSeconds = this.DEFAULT_TTL,
-  ): Promise<void> {
+  async create(data: IdempotencyMock, ttlSeconds = this.DEFAULT_TTL): Promise<void> {
     const key = `idempotency:${data.key}`;
     const value = JSON.stringify(data);
 
