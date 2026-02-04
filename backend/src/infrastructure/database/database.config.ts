@@ -1,8 +1,7 @@
 import path from 'path';
 
+import { DatabaseConfig } from '@config/validators/database.validator';
 import { DataSource } from 'typeorm';
-
-import { DatabaseConfig } from '../../config/validators/database.validator';
 
 export const connectDatabase = async (config: DatabaseConfig) => {
   try {

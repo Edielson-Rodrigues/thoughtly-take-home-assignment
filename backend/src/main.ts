@@ -1,8 +1,7 @@
+import { ConfigService } from '@config/config.service';
+import { connectDatabase } from '@database/database.config';
 import cors from '@fastify/cors';
 import Fastify from 'fastify';
-
-import { ConfigService } from './config/config.service';
-import { connectDatabase } from './infrastructure/database/database.config';
 
 const app = Fastify({
   logger: true,
