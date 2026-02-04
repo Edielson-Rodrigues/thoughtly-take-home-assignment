@@ -1,7 +1,7 @@
-import z from "zod";
+import z from 'zod';
 
-import { appSchema } from "./app.validator";
-import { databaseSchema } from "./database.validator";
+import { appSchema } from './app.validator';
+import { databaseSchema } from './database.validator';
 
 export const rootSchema = z.any().transform((env) => ({
   database: databaseSchema.parse(env),

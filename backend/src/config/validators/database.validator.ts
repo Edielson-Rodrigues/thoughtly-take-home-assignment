@@ -1,4 +1,4 @@
-import z from "zod";
+import z from 'zod';
 
 const dbEnvSchema = z.object({
   DB_HOST: z.string(),
@@ -6,7 +6,7 @@ const dbEnvSchema = z.object({
   DB_USERNAME: z.string(),
   DB_PASSWORD: z.string(),
   DB_NAME: z.string(),
-  DB_SSL: z.string().optional().default("false"),
+  DB_SSL: z.string().optional().default('false'),
 });
 
 export const databaseSchema = dbEnvSchema.transform((env) => ({
@@ -15,7 +15,7 @@ export const databaseSchema = dbEnvSchema.transform((env) => ({
   username: env.DB_USERNAME,
   password: env.DB_PASSWORD,
   name: env.DB_NAME,
-  ssl: env.DB_SSL === "true",
+  ssl: env.DB_SSL === 'true',
 }));
 
 export type DatabaseConfig = z.infer<typeof databaseSchema>;

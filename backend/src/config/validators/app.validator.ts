@@ -1,4 +1,4 @@
-import z from "zod";
+import z from 'zod';
 
 const appEnvSchema = z.object({
   API_PORT: z.coerce.number().optional().default(8000),

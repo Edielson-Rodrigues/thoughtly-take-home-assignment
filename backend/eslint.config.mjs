@@ -70,7 +70,14 @@ export default [
         },
       ],
       ...securityPlugin.configs.recommended.rules,
-      'prettier/prettier': ['error', prettierConfig],
+      'prettier/prettier': [
+          'error',
+          {
+            ...prettierConfig,
+            singleQuote: true,
+            trailingComma: 'all',
+          },
+        ],
     },
     settings: {
       'import/resolver': {

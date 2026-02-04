@@ -1,25 +1,25 @@
-import path from "path";
+import path from 'path';
 
-import * as dotenv from "dotenv";
-import z from "zod";
+import * as dotenv from 'dotenv';
+import z from 'zod';
 
-import { EnvConfig, rootSchema } from "./validators";
+import { EnvConfig, rootSchema } from './validators';
 
 export class ConfigService {
   private static instance: ConfigService;
   private readonly config: EnvConfig;
 
   private constructor() {
-    dotenv.config({ path: path.resolve(process.cwd(), "..", ".env") });
+    dotenv.config({ path: path.resolve(process.cwd(), '..', '.env') });
 
     const parsed = rootSchema.safeParse(process.env);
 
     if (!parsed.success) {
       console.error(
-        "❌ Invalid environment variables:",
+        '❌ Invalid environment variables:',
         z.treeifyError(parsed.error),
       );
-      throw new Error("Invalid environment variables");
+      throw new Error('Invalid environment variables');
     }
 
     this.config = parsed.data;
