@@ -23,6 +23,7 @@
     "@fastify/swagger-ui": "^5.2.5",
     "dotenv": "^17.2.3",
     "fastify": "^5.7.4",
+    "http-status-codes": "^2.3.0",
     "ioredis": "^5.9.2",
     "pg": "^8.18.0",
     "typeorm": "^0.3.28",
