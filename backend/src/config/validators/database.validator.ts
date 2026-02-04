@@ -14,7 +14,7 @@ export const databaseSchema = dbEnvSchema.transform((env) => ({
   port: env.DB_PORT,
   username: env.DB_USERNAME,
   password: env.DB_PASSWORD,
-  name: env.DB_NAME,
+  database: env.DB_NAME,
   ssl: env.DB_SSL === 'true',
 }));
 
