@@ -9,18 +9,18 @@ import { TicketTierRepository } from '../ticket-tier.repository';
 describe('Database -> Ticket Tier Repository - Find One', () => {
   const ticketTierMock = new TicketTierMock();
 
-  const mockRepository = {
+  const repositoryMock = {
     findOne: jest.fn().mockResolvedValue(ticketTierMock),
   };
 
-  const mockDataSource = {
-    getRepository: jest.fn().mockReturnValue(mockRepository),
+  const dataSourceMock = {
+    getRepository: jest.fn().mockReturnValue(repositoryMock),
   };
 
   let ticketTierRepository: TicketTierRepository;
 
   beforeAll(() => {
-    ticketTierRepository = new TicketTierRepository(mockDataSource as any);
+    ticketTierRepository = new TicketTierRepository(dataSourceMock as any);
   });
 
   afterEach(() => jest.clearAllMocks());
@@ -33,8 +33,8 @@ describe('Database -> Ticket Tier Repository - Find One', () => {
       const result = await ticketTierRepository.findOne(filters, relations);
 
       expect(result).toStrictEqual(ticketTierMock);
-      expect(mockRepository.findOne).toHaveBeenCalledTimes(1);
-      expect(mockRepository.findOne).toHaveBeenCalledWith({
+      expect(repositoryMock.findOne).toHaveBeenCalledTimes(1);
+      expect(repositoryMock.findOne).toHaveBeenCalledWith({
         where: filters,
         relations: relations,
       });
@@ -48,7 +48,7 @@ describe('Database -> Ticket Tier Repository - Find One', () => {
       const result = await ticketTierRepository.findOne(filters);
 
       expect(result).toStrictEqual(ticketTierMock);
-      expect(mockRepository.findOne).toHaveBeenCalledWith({
+      expect(repositoryMock.findOne).toHaveBeenCalledWith({
         where: filters,
         relations: undefined,
       });
@@ -59,13 +59,13 @@ describe('Database -> Ticket Tier Repository - Find One', () => {
         id: 'non-existent-id',
       };
 
-      mockRepository.findOne.mockResolvedValueOnce(null);
+      repositoryMock.findOne.mockResolvedValueOnce(null);
 
       const result = await ticketTierRepository.findOne(filters);
 
       expect(result).toBeNull();
-      expect(mockRepository.findOne).toHaveBeenCalledTimes(1);
-      expect(mockRepository.findOne).toHaveBeenCalledWith({
+      expect(repositoryMock.findOne).toHaveBeenCalledTimes(1);
+      expect(repositoryMock.findOne).toHaveBeenCalledWith({
         where: filters,
         relations: undefined,
       });

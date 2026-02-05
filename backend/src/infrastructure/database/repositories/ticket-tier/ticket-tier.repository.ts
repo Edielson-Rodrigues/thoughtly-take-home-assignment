@@ -33,4 +33,15 @@ export class TicketTierRepository {
       relations: relations,
     });
   }
+
+  /**
+   * INCREASE STOCK
+   *
+   * Used to revert the stock decrement in case of payment failure.
+   */
+  async increaseStock(id: string, quantity: number): Promise<void> {
+    await this.typeOrmRepo.update(id, {
+      availableQuantity: () => `available_quantity + ${quantity}`,
+    });
+  }
 }
