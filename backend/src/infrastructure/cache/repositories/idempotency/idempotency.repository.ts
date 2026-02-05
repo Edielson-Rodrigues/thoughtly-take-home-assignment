@@ -27,7 +27,9 @@ export class IdempotencyRepository {
     await this.cacheClient.set(key, value, 'EX', ttlSeconds);
   }
 
-  async findByKey(key: string): Promise<Idempotency | null> {
+  async findByKey<TResponseBody = Record<string, any>>(
+    key: string,
+  ): Promise<(Idempotency & { responseBody: TResponseBody }) | null> {
     const rawData = await this.cacheClient.get(`idempotency:${key}`);
     if (!rawData) {
       return null;
@@ -38,6 +40,6 @@ export class IdempotencyRepository {
       parsed.createdAt = new Date(parsed.createdAt);
     }
 
-    return parsed as Idempotency;
+    return parsed as Idempotency & { responseBody: TResponseBody };
   }
 }

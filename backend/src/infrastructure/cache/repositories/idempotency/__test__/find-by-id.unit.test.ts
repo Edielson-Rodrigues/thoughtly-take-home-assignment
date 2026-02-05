@@ -9,14 +9,14 @@ describe('Cache -> Idempotency Repository - Find By Key', () => {
     createdAt: idempotencyMock.createdAt.toISOString(),
   });
 
-  const mockRedisClient = {
+  const redisClientMock = {
     get: jest.fn().mockResolvedValue(idempotencyKeySaved),
   };
 
   let idempotencyRepository: IdempotencyRepository;
 
   beforeAll(() => {
-    idempotencyRepository = new IdempotencyRepository(mockRedisClient as any);
+    idempotencyRepository = new IdempotencyRepository(redisClientMock as any);
   });
 
   afterEach(() => jest.clearAllMocks());
@@ -26,17 +26,17 @@ describe('Cache -> Idempotency Repository - Find By Key', () => {
       const result = await idempotencyRepository.findByKey(idempotencyMock.key);
 
       expect(result).toEqual(idempotencyMock);
-      expect(mockRedisClient.get).toHaveBeenCalledTimes(1);
-      expect(mockRedisClient.get).toHaveBeenCalledWith(`idempotency:${idempotencyMock.key}`);
+      expect(redisClientMock.get).toHaveBeenCalledTimes(1);
+      expect(redisClientMock.get).toHaveBeenCalledWith(`idempotency:${idempotencyMock.key}`);
     });
 
     it('should return null when key does not exist', async () => {
-      mockRedisClient.get.mockResolvedValueOnce(null);
+      redisClientMock.get.mockResolvedValueOnce(null);
 
       const result = await idempotencyRepository.findByKey('non-existent-key');
 
-      expect(mockRedisClient.get).toHaveBeenCalledTimes(1);
-      expect(mockRedisClient.get).toHaveBeenCalledWith('idempotency:non-existent-key');
+      expect(redisClientMock.get).toHaveBeenCalledTimes(1);
+      expect(redisClientMock.get).toHaveBeenCalledWith('idempotency:non-existent-key');
       expect(result).toBeNull();
     });
   });
