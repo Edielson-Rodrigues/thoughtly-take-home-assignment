@@ -1,32 +1,48 @@
-import { globalErrorHandler } from '@core/middlewares/http-exception.middleware';
 import cors from '@fastify/cors';
 import Fastify from 'fastify';
 
+import { CacheProvider } from '@cache/cache.provider';
 import { ConfigService } from '@config/config.service';
+import { httpErrorHandler } from '@core/middlewares/http-error.middleware';
 import { DatabaseProvider } from '@database/database.provider';
+import { buildDocs } from '@presentation/docs/build-docs';
+import { httpRoutes } from '@presentation/http/http.routes';
 
-import { CacheProvider } from './infrastructure/cache/cache.provider';
+import { Logger } from './shared/logger';
 
-const app = Fastify({
-  logger: true,
-});
+const createApp = (configService: ConfigService) => {
+  const { environment } = configService.get('app');
+  const logger = Logger.initialize({ environment });
+
+  return { app: Fastify({ loggerInstance: logger }), logger };
+};
+
+const connectInfra = async (configService: ConfigService) => {
+  await DatabaseProvider.connect(configService.get('database'));
+  await CacheProvider.connect(configService.get('cache'));
+};
 
 const bootstrap = async () => {
-  try {
-    const configService = ConfigService.getInstance();
+  const configService = ConfigService.getInstance();
+  const { app, logger } = createApp(configService);
 
-    await DatabaseProvider.connect(configService.get('database'));
-    await CacheProvider.connect(configService.get('cache'));
+  try {
+    const { port } = configService.get('app');
+
+    await connectInfra(configService);
+    await buildDocs(app, configService);
 
     await app.register(cors, { origin: true });
-    app.setErrorHandler(globalErrorHandler);
+    await app.register(httpRoutes, { prefix: '/api' });
 
-    const port = configService.get('app').port;
+    app.setErrorHandler(httpErrorHandler);
+
     await app.listen({ port, host: '0.0.0.0' });
 
-    console.log(`🚀 Server running at http://localhost:${port}`);
+    logger.info(`Server running at http://localhost:${port}`);
+    logger.info(`Documentation available at http://localhost:${port}/docs`);
   } catch (err) {
-    app.log.error(err);
+    logger.error(err);
     process.exit(1);
   }
 };
