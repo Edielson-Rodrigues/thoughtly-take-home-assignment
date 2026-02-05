@@ -7,5 +7,3 @@ export interface IIdempotency {
   responseStatus: number;
   createdAt: Date;
 }
-
-export type CreateIdempotency = Omit<IIdempotency, 'createdAt'>;

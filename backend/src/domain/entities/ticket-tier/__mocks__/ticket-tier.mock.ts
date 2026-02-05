@@ -11,14 +11,18 @@ export class TicketTierMock implements ITicketTier {
   public readonly concertId: string;
   public readonly createdAt: Date;
 
-  constructor() {
+  constructor(props?: Partial<ITicketTier>) {
     this.id = faker.string.uuid();
     this.name = faker.lorem.words(2);
-    this.price = faker.number.float({ min: 10, max: 500 });
+    this.price = faker.number.float({ min: 10, max: 500, fractionDigits: 2 });
     this.totalQuantity = faker.number.int({ min: 50, max: 200 });
-    this.availableQuantity = this.totalQuantity - faker.number.int({ min: 0, max: 50 });
+    this.availableQuantity = this.totalQuantity - faker.number.int({ min: 0, max: 10 });
     this.concertId = faker.string.uuid();
     this.createdAt = faker.date.past();
+
+    if (props) {
+      Object.assign(this, props);
+    }
   }
 
   public static getList(length: number = 2): ITicketTier[] {
