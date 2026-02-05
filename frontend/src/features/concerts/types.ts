@@ -34,3 +34,13 @@ export interface Concert {
 export interface FindConcertsResponse {
   concerts: Concert[];
 }
+
+/**
+ * SSE payload for real-time stock updates
+ * @see backend/src/infrastructure/events/concert/concert-update.subject.ts
+ */
+export interface ConcertStockUpdate {
+  concertId: string;
+  ticketTierId: string;
+  newAvailableQuantity: number;
+}
