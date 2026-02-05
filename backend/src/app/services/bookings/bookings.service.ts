@@ -64,7 +64,7 @@ export class BookingService {
       totalPrice: data.totalPrice,
     });
 
-    const isPaid = await this.paymentGatewayProvider.process(data.totalPrice);
+    const isPaid = await this.paymentGatewayProvider.process(data.totalPrice, data.currency);
     if (!isPaid) {
       await this.bookingRepository.deleteById(booking.id);
       await this.ticketTierRepository.increaseStock(data.ticketTierId, data.quantity);

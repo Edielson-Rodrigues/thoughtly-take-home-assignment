@@ -1,3 +1,4 @@
+import { SupportedCurrencies } from '@shared/supported-currencies';
 import pino from 'pino';
 
 import { PaymentGatewayProvider } from '../payment-gatewat.provider';
@@ -22,10 +23,10 @@ describe('Providers -> Payment Gateway Provider - Process', () => {
 
       jest.spyOn(Math, 'random').mockReturnValue(0.5);
 
-      const result = await paymentGatewayProvider.process(amount);
+      const result = await paymentGatewayProvider.process(amount, SupportedCurrencies.USD);
 
       expect(result).toBe(true);
-      expect(loggerMock.info).toHaveBeenCalledWith(`Payment of $${amount} approved.`);
+      expect(loggerMock.info).toHaveBeenCalledWith(`Payment of $${amount} with ${SupportedCurrencies.USD} approved.`);
       expect(loggerMock.error).not.toHaveBeenCalled();
     });
   });
@@ -36,10 +37,10 @@ describe('Providers -> Payment Gateway Provider - Process', () => {
 
       jest.spyOn(Math, 'random').mockReturnValue(0.1);
 
-      const result = await paymentGatewayProvider.process(amount);
+      const result = await paymentGatewayProvider.process(amount, SupportedCurrencies.USD);
 
       expect(result).toBe(false);
-      expect(loggerMock.error).toHaveBeenCalledWith(`Payment of $${amount} failed.`);
+      expect(loggerMock.error).toHaveBeenCalledWith(`Payment of $${amount} with ${SupportedCurrencies.USD} failed.`);
       expect(loggerMock.info).not.toHaveBeenCalled();
     });
   });

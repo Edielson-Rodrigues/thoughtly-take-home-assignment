@@ -1,6 +1,7 @@
+import { SupportedCurrencies } from '@shared/supported-currencies';
 import { StatusCodes } from 'http-status-codes';
 
-import { BookingMock } from '@domain/entities/booking/__mocks__/booking.mocks';
+import { BookingMock } from '@domain/entities/booking/__mocks__/booking.mock';
 import { TicketTierMock } from '@domain/entities/ticket-tier/__mocks__/ticket-tier.mock';
 import { InvalidPaymentForTicketTierError } from '@domain/errors/ticket-tier/invalid-payment-for-ticket-tier.error';
 import { TicketTierNotFoundError } from '@domain/errors/ticket-tier/ticket-tier-not-found.error';
@@ -20,7 +21,7 @@ describe('Service -> Bookings -> Create', () => {
     userEmail: bookingMock.userEmail,
     quantity: bookingMock.quantity,
     totalPrice: expectedTotalPrice,
-    currency: 'USD',
+    currency: SupportedCurrencies.USD,
     idempotencyKey: 'unique-key-12345',
   };
 
@@ -84,7 +85,10 @@ describe('Service -> Bookings -> Create', () => {
       });
 
       expect(paymentGatewayProviderMock.process).toHaveBeenCalledTimes(1);
-      expect(paymentGatewayProviderMock.process).toHaveBeenCalledWith(createBookingData.totalPrice);
+      expect(paymentGatewayProviderMock.process).toHaveBeenCalledWith(
+        createBookingData.totalPrice,
+        createBookingData.currency,
+      );
 
       expect(concertUpdateSubjectMock.next).toHaveBeenCalledTimes(1);
       expect(concertUpdateSubjectMock.next).toHaveBeenCalledWith({
@@ -190,7 +194,10 @@ describe('Service -> Bookings -> Create', () => {
       });
 
       expect(paymentGatewayProviderMock.process).toHaveBeenCalledTimes(1);
-      expect(paymentGatewayProviderMock.process).toHaveBeenCalledWith(createBookingData.totalPrice);
+      expect(paymentGatewayProviderMock.process).toHaveBeenCalledWith(
+        createBookingData.totalPrice,
+        createBookingData.currency,
+      );
 
       expect(bookingRepositoryMock.deleteById).toHaveBeenCalledTimes(1);
       expect(bookingRepositoryMock.deleteById).toHaveBeenCalledWith(bookingMock.id);
