@@ -23,6 +23,7 @@ export class Logger {
               options: {
                 colorize: true,
                 translateTime: 'SYS:standard',
+                ignore: 'pid,hostname',
               },
             }
           : undefined,
