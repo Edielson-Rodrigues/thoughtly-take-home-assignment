@@ -10,12 +10,16 @@ export const httpErrorHandler = (
 ) => {
   let statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
   let message = 'Internal Server Error';
-  let errorName = 'InternalServerError';
+  let errorName: string | string[] = 'InternalServerError';
 
   if (error instanceof AppError) {
     statusCode = error.statusCode;
     message = error.message;
     errorName = error.name;
+  } else if ('validation' in error) {
+    errorName = 'ValidationError';
+    statusCode = (error as any).statusCode || StatusCodes.INTERNAL_SERVER_ERROR;
+    message = (error as any).validation ? (error as any).validation.map((curr: any) => curr.message) : error.message;
   } else if ('statusCode' in error && typeof error.statusCode === 'number') {
     statusCode = error.statusCode;
     message = error.message;

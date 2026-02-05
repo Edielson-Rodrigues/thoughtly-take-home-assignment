@@ -9,7 +9,7 @@ export type ActionRequest<TBody = any, TQuery = any, TParams = any> = {
 };
 
 export const httpRequestHandler = <TBody, TQuery, TParams, TRes>(
-  handler: (req: ActionRequest<TBody, TQuery, TParams>) => Promise<TRes>,
+  handler: (req: ActionRequest<TBody, TQuery, TParams>) => Promise<TRes> | TRes,
   statusCode: StatusCodes = StatusCodes.OK,
 ) => {
   return async (req: FastifyRequest, reply: FastifyReply) => {
