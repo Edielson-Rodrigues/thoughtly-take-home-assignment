@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "ES2021",
     "module": "commonjs",
-    "rootDir": "./src",
+    "rootDirs": ["./src", "./tests"],
     "outDir": "./dist",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -18,8 +18,9 @@
       "@database/*": ["./src/infrastructure/database/*"],
       "@cache/*": ["./src/infrastructure/cache/*"],
       "@domain/*": ["./src/domain/*"],
-      "@presentation/*": ["./src/presentation/*"]
+      "@presentation/*": ["./src/presentation/*"],
+      "@shared/*": ["./src/shared/*"],
     },
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "tests/**/*"]
 }

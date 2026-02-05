@@ -1,0 +1,33 @@
+{
+  "moduleFileExtensions": ["js", "json", "ts"],
+  "rootDir": ".",
+  "testRegex": ".*\\.unit.test\\.ts$",
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "transformIgnorePatterns": [
+    "node_modules/(?!@faker-js)"
+  ],
+  "collectCoverageFrom": [
+    "src/app/**/*.{ts,js}",
+    "src/infrastructure/**/*.{ts,js}",
+    "!src/infrastructure/database/migrations/*.{ts,js}",
+    "!src/infrastructure/database/seeds/*.{ts,js}",
+    "!src/**/*.d.ts",
+    "!src/**/__test__/**"
+  ],
+  "testPathIgnorePatterns": ["/node_modules/", "/dist/"],
+  "coveragePathIgnorePatterns": ["/node_modules/", "/dist/"],
+  "coverageDirectory": "coverage",
+  "testEnvironment": "jest-environment-node",
+  "moduleNameMapper": {
+    "^@app/(.*)$": "<rootDir>/src/app/$1",
+    "^@core/(.*)$": "<rootDir>/src/core/$1",
+    "^@config/(.*)$": "<rootDir>/src/config/$1",
+    "^@database/(.*)$": "<rootDir>/src/infrastructure/database/$1",
+    "^@cache/(.*)$": "<rootDir>/src/infrastructure/cache/$1",
+    "^@domain/(.*)$": "<rootDir>/src/domain/$1",
+    "^@presentation/(.*)$": "<rootDir>/src/presentation/$1",
+    "^@shared/(.*)$": "<rootDir>/src/shared/$1"
+  }
+}

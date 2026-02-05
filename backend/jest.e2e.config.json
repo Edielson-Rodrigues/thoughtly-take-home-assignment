@@ -1,0 +1,38 @@
+{
+  "moduleFileExtensions": ["js", "json", "ts"],
+  "rootDir": ".",
+  "testRegex": ".*\\.e2e\\.test\\.ts$",
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "transformIgnorePatterns": [
+    "node_modules/(?!@faker-js)"
+  ],
+  "testPathIgnorePatterns": ["/node_modules/", "/dist/"],
+  "testEnvironment": "jest-environment-node",
+  "testTimeout": 60000,
+  "setupFilesAfterEnv": ["<rootDir>/tests/e2e/setup/jest.setup.ts"],
+  "moduleNameMapper": {
+    "^@app/(.*)$": "<rootDir>/src/app/$1",
+    "^@core/(.*)$": "<rootDir>/src/core/$1",
+    "^@config/(.*)$": "<rootDir>/src/config/$1",
+    "^@database/(.*)$": "<rootDir>/src/infrastructure/database/$1",
+    "^@cache/(.*)$": "<rootDir>/src/infrastructure/cache/$1",
+    "^@domain/(.*)$": "<rootDir>/src/domain/$1",
+    "^@presentation/(.*)$": "<rootDir>/src/presentation/$1",
+    "^@shared/(.*)$": "<rootDir>/src/shared/$1"
+  },
+  "maxWorkers": 1,
+  "collectCoverageFrom": [
+    "src/presentation/**/*.controller.{ts,js}",
+    "src/app/**/*.{ts,js}",
+    "src/infrastructure/**/*.{ts,js}",
+    "!src/infrastructure/database/migrations/*.{ts,js}",
+    "!src/infrastructure/database/seeds/*.{ts,js}",
+    "!src/domain/**/*.{ts,js}",
+    "!src/**/*.d.ts",
+    "!src/**/__test__/**",
+    "!src/infrastructure/database/migrations/*.{ts,js}"
+  ],
+  "coverageDirectory": "coverage-e2e"
+}
