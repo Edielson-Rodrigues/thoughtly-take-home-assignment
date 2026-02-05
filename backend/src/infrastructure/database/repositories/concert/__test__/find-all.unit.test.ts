@@ -6,22 +6,22 @@ import { ConcertRelations } from '@domain/entities/concert/concert.interface';
 
 import { ConcertRepository } from '../concert.repository';
 
-describe('Database -> Concert Repository - Find', () => {
+describe('Database -> Concert Repository - Find All', () => {
   const concertMock = new ConcertMock();
   const concertList = ConcertMock.getList(2);
 
-  const mockRepository = {
+  const repositoryMock = {
     find: jest.fn().mockResolvedValue(concertList),
   };
 
-  const mockDataSource = {
-    getRepository: jest.fn().mockReturnValue(mockRepository),
+  const dataSourceMock = {
+    getRepository: jest.fn().mockReturnValue(repositoryMock),
   };
 
   let concertRepository: ConcertRepository;
 
   beforeAll(() => {
-    concertRepository = new ConcertRepository(mockDataSource as any);
+    concertRepository = new ConcertRepository(dataSourceMock as any);
   });
 
   afterEach(() => jest.clearAllMocks());
@@ -31,11 +31,11 @@ describe('Database -> Concert Repository - Find', () => {
       const filters: FindOptionsWhere<ConcertEntity> = { id: concertMock.id };
       const relations: ConcertRelations = { ticketTiers: true };
 
-      const result = await concertRepository.find(filters, relations);
+      const result = await concertRepository.findAll(filters, relations);
 
       expect(result).toStrictEqual(concertList);
-      expect(mockRepository.find).toHaveBeenCalledTimes(1);
-      expect(mockRepository.find).toHaveBeenCalledWith({
+      expect(repositoryMock.find).toHaveBeenCalledTimes(1);
+      expect(repositoryMock.find).toHaveBeenCalledWith({
         where: filters,
         relations: relations,
         order: {
@@ -49,10 +49,10 @@ describe('Database -> Concert Repository - Find', () => {
         location: concertMock.location,
       };
 
-      const result = await concertRepository.find(filters);
+      const result = await concertRepository.findAll(filters);
 
       expect(result).toStrictEqual(concertList);
-      expect(mockRepository.find).toHaveBeenCalledWith({
+      expect(repositoryMock.find).toHaveBeenCalledWith({
         where: filters,
         relations: undefined,
         order: {
@@ -66,13 +66,13 @@ describe('Database -> Concert Repository - Find', () => {
         id: 'non-existent-id',
       };
 
-      mockRepository.find.mockResolvedValueOnce([]);
+      repositoryMock.find.mockResolvedValueOnce([]);
 
-      const result = await concertRepository.find(filters);
+      const result = await concertRepository.findAll(filters);
 
       expect(result).toEqual([]);
-      expect(mockRepository.find).toHaveBeenCalledTimes(1);
-      expect(mockRepository.find).toHaveBeenCalledWith({
+      expect(repositoryMock.find).toHaveBeenCalledTimes(1);
+      expect(repositoryMock.find).toHaveBeenCalledWith({
         where: filters,
         relations: undefined,
         order: {

@@ -21,7 +21,7 @@ export class ConcertRepository {
   /**
    * Retrieves a list of concerts.
    */
-  async find(filters: FindOptionsWhere<ConcertEntity>, relations?: ConcertRelations): Promise<ConcertEntity[]> {
+  async findAll(filters: FindOptionsWhere<ConcertEntity>, relations?: ConcertRelations): Promise<ConcertEntity[]> {
     return await this.typeOrmRepo.find({
       where: filters,
       relations: relations,
