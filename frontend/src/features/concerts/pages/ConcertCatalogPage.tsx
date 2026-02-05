@@ -1,8 +1,11 @@
 import { useConcerts } from '../hooks/useConcerts';
+import { useConcertSSE } from '../hooks/useConcertSSE';
 import { ConcertCard } from '../components/ConcertCard';
 
 export function ConcertCatalogPage() {
   const { data: concerts, isLoading, error } = useConcerts();
+
+  useConcertSSE();
 
   if (isLoading) {
     return (

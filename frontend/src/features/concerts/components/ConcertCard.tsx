@@ -31,6 +31,28 @@ function getAvailabilityVariant(tier: TicketTier): 'success' | 'warning' | 'dang
   return 'danger';
 }
 
+interface TicketTierRowProps {
+  tier: TicketTier;
+}
+
+function TicketTierRow({ tier }: TicketTierRowProps) {
+  return (
+    <div className="flex items-center justify-between p-2 rounded-lg bg-gray-50 animate-flash">
+      <div className="flex-1">
+        <span className="font-medium text-gray-900">{tier.name}</span>
+        <span className="ml-2 text-blue-600 font-semibold">
+          {formatPrice(tier.price)}
+        </span>
+      </div>
+      <Badge variant={getAvailabilityVariant(tier)}>
+        {tier.availableQuantity > 0
+          ? `${tier.availableQuantity} left`
+          : 'Sold Out'}
+      </Badge>
+    </div>
+  );
+}
+
 export function ConcertCard({ concert }: ConcertCardProps) {
   return (
     <Card className="hover:shadow-lg transition-shadow duration-200">
@@ -64,22 +86,7 @@ export function ConcertCard({ concert }: ConcertCardProps) {
           <h4 className="text-sm font-medium text-gray-700 mb-3">Ticket Tiers</h4>
           <div className="space-y-2">
             {concert.ticketTiers?.map((tier) => (
-              <div
-                key={tier.id}
-                className="flex items-center justify-between p-2 bg-gray-50 rounded-lg"
-              >
-                <div className="flex-1">
-                  <span className="font-medium text-gray-900">{tier.name}</span>
-                  <span className="ml-2 text-blue-600 font-semibold">
-                    {formatPrice(tier.price)}
-                  </span>
-                </div>
-                <Badge variant={getAvailabilityVariant(tier)}>
-                  {tier.availableQuantity > 0
-                    ? `${tier.availableQuantity} left`
-                    : 'Sold Out'}
-                </Badge>
-              </div>
+              <TicketTierRow key={`${tier.id}-${tier.availableQuantity}`} tier={tier} />
             ))}
           </div>
         </div>
