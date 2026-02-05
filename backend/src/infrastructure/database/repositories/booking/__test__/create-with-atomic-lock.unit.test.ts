@@ -5,7 +5,7 @@ import { BookingEntity } from '@domain/entities/booking/booking.entity';
 import { CreateBooking } from '@domain/entities/booking/booking.interface';
 import { TicketTierMock } from '@domain/entities/ticket-tier/__mocks__/ticket-tier.mock';
 import { TicketTierEntity } from '@domain/entities/ticket-tier/ticket-tier.entity';
-import { TicketTierOutOfStockException } from '@domain/errors/ticket-tier/ticket-tier-out-of-stock.exception';
+import { TicketTierOutOfStockError } from '@domain/errors/ticket-tier/ticket-tier-out-of-stock.error';
 
 import { BookingRepository } from '../booking.repository';
 
@@ -20,7 +20,7 @@ describe('Database -> Booking Repository - Create With Atomic Lock', () => {
     totalPrice: bookingMock.totalPrice,
   };
 
-  const mockManager = {
+  const managerMock = {
     createQueryBuilder: jest.fn().mockReturnThis(),
     update: jest.fn().mockReturnThis(),
     set: jest.fn().mockReturnThis(),
@@ -31,9 +31,9 @@ describe('Database -> Booking Repository - Create With Atomic Lock', () => {
     save: jest.fn().mockResolvedValue(bookingMock),
   };
 
-  const mockDataSource = {
+  const dataSourceMock = {
     transaction: jest.fn().mockImplementation(async (callback: any) => {
-      return await callback(mockManager as unknown as EntityManager);
+      return await callback(managerMock as unknown as EntityManager);
     }),
     getRepository: jest.fn(),
   };
@@ -41,7 +41,7 @@ describe('Database -> Booking Repository - Create With Atomic Lock', () => {
   let bookingRepository: BookingRepository;
 
   beforeAll(() => {
-    bookingRepository = new BookingRepository(mockDataSource as any);
+    bookingRepository = new BookingRepository(dataSourceMock as any);
   });
 
   afterEach(() => jest.clearAllMocks());
@@ -51,37 +51,37 @@ describe('Database -> Booking Repository - Create With Atomic Lock', () => {
       const result = await bookingRepository.createWithAtomicLock(createBookingData);
 
       expect(result).toStrictEqual(bookingMock);
-      expect(mockDataSource.transaction).toHaveBeenCalledTimes(1);
-      expect(mockManager.createQueryBuilder).toHaveBeenCalledTimes(1);
+      expect(dataSourceMock.transaction).toHaveBeenCalledTimes(1);
+      expect(managerMock.createQueryBuilder).toHaveBeenCalledTimes(1);
 
-      expect(mockManager.update).toHaveBeenCalledTimes(1);
-      expect(mockManager.update).toHaveBeenCalledWith(TicketTierEntity);
+      expect(managerMock.update).toHaveBeenCalledTimes(1);
+      expect(managerMock.update).toHaveBeenCalledWith(TicketTierEntity);
 
-      expect(mockManager.set).toHaveBeenCalledTimes(1);
-      expect(mockManager.set).toHaveBeenCalledWith({
+      expect(managerMock.set).toHaveBeenCalledTimes(1);
+      expect(managerMock.set).toHaveBeenCalledWith({
         availableQuantity: expect.any(Function),
       });
 
-      expect(mockManager.where).toHaveBeenCalledTimes(1);
-      expect(mockManager.where).toHaveBeenCalledWith('id = :id', {
+      expect(managerMock.where).toHaveBeenCalledTimes(1);
+      expect(managerMock.where).toHaveBeenCalledWith('id = :id', {
         id: createBookingData.ticketTierId,
       });
 
-      expect(mockManager.andWhere).toHaveBeenCalledTimes(1);
-      expect(mockManager.andWhere).toHaveBeenCalledWith('available_quantity >= :qty', {
+      expect(managerMock.andWhere).toHaveBeenCalledTimes(1);
+      expect(managerMock.andWhere).toHaveBeenCalledWith('available_quantity >= :qty', {
         qty: createBookingData.quantity,
       });
 
-      expect(mockManager.execute).toHaveBeenCalledTimes(1);
+      expect(managerMock.execute).toHaveBeenCalledTimes(1);
 
-      expect(mockManager.create).toHaveBeenCalledTimes(1);
-      expect(mockManager.create).toHaveBeenCalledWith(BookingEntity, {
+      expect(managerMock.create).toHaveBeenCalledTimes(1);
+      expect(managerMock.create).toHaveBeenCalledWith(BookingEntity, {
         userEmail: createBookingData.userEmail,
         ticketTierId: createBookingData.ticketTierId,
         quantity: createBookingData.quantity,
         totalPrice: createBookingData.totalPrice,
       });
-      expect(mockManager.save).toHaveBeenCalledWith(bookingMock);
+      expect(managerMock.save).toHaveBeenCalledWith(bookingMock);
     });
   });
 
@@ -89,37 +89,37 @@ describe('Database -> Booking Repository - Create With Atomic Lock', () => {
     it('should throw SOLD_OUT error when stock is insufficient', async () => {
       const updateResult = { affected: 0 };
 
-      mockManager.execute.mockResolvedValueOnce(updateResult);
+      managerMock.execute.mockResolvedValueOnce(updateResult);
 
       await expect(bookingRepository.createWithAtomicLock(createBookingData)).rejects.toThrow(
-        TicketTierOutOfStockException,
+        TicketTierOutOfStockError,
       );
 
-      expect(mockDataSource.transaction).toHaveBeenCalledTimes(1);
-      expect(mockManager.createQueryBuilder).toHaveBeenCalledTimes(1);
+      expect(dataSourceMock.transaction).toHaveBeenCalledTimes(1);
+      expect(managerMock.createQueryBuilder).toHaveBeenCalledTimes(1);
 
-      expect(mockManager.update).toHaveBeenCalledTimes(1);
-      expect(mockManager.update).toHaveBeenCalledWith(TicketTierEntity);
+      expect(managerMock.update).toHaveBeenCalledTimes(1);
+      expect(managerMock.update).toHaveBeenCalledWith(TicketTierEntity);
 
-      expect(mockManager.set).toHaveBeenCalledTimes(1);
-      expect(mockManager.set).toHaveBeenCalledWith({
+      expect(managerMock.set).toHaveBeenCalledTimes(1);
+      expect(managerMock.set).toHaveBeenCalledWith({
         availableQuantity: expect.any(Function),
       });
 
-      expect(mockManager.where).toHaveBeenCalledTimes(1);
-      expect(mockManager.where).toHaveBeenCalledWith('id = :id', {
+      expect(managerMock.where).toHaveBeenCalledTimes(1);
+      expect(managerMock.where).toHaveBeenCalledWith('id = :id', {
         id: createBookingData.ticketTierId,
       });
 
-      expect(mockManager.andWhere).toHaveBeenCalledTimes(1);
-      expect(mockManager.andWhere).toHaveBeenCalledWith('available_quantity >= :qty', {
+      expect(managerMock.andWhere).toHaveBeenCalledTimes(1);
+      expect(managerMock.andWhere).toHaveBeenCalledWith('available_quantity >= :qty', {
         qty: createBookingData.quantity,
       });
 
-      expect(mockManager.execute).toHaveBeenCalledTimes(1);
+      expect(managerMock.execute).toHaveBeenCalledTimes(1);
 
-      expect(mockManager.create).not.toHaveBeenCalled();
-      expect(mockManager.save).not.toHaveBeenCalled();
+      expect(managerMock.create).not.toHaveBeenCalled();
+      expect(managerMock.save).not.toHaveBeenCalled();
     });
   });
 });

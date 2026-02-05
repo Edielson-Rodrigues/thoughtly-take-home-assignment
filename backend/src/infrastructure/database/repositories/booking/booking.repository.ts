@@ -3,7 +3,7 @@ import { DataSource, FindOptionsWhere, Repository } from 'typeorm';
 import { BookingEntity } from '@domain/entities/booking/booking.entity';
 import { BookingRelations, CreateBooking } from '@domain/entities/booking/booking.interface';
 import { TicketTierEntity } from '@domain/entities/ticket-tier/ticket-tier.entity';
-import { TicketTierOutOfStockException } from '@domain/errors/ticket-tier/ticket-tier-out-of-stock.exception';
+import { TicketTierOutOfStockError } from '@domain/errors/ticket-tier/ticket-tier-out-of-stock.error';
 
 /**
  * BOOKING REPOSITORY
@@ -31,7 +31,7 @@ export class BookingRepository {
    * This logic ensures that 50,000 concurrent users can never buy
    * more tickets than physically exist.
    */
-  async createWithAtomicLock(data: CreateBooking): Promise<BookingEntity | null> {
+  async createWithAtomicLock(data: CreateBooking): Promise<BookingEntity> {
     return await this.dataSource.transaction(async (manager) => {
       // -------------------------------------------------------
       // STEP 1: ATOMIC UPDATE (The Guard)
@@ -55,14 +55,13 @@ export class BookingRepository {
       // If affected == 0, it means the WHERE clause failed (stock < quantity).
       // We throw immediately to abort the transaction.
       if (updateResult.affected === 0) {
-        throw new TicketTierOutOfStockException();
+        throw new TicketTierOutOfStockError();
       }
 
       // -------------------------------------------------------
       // STEP 3: CREATE BOOKING
       // -------------------------------------------------------
-      // Since we successfully secured the inventory, we can now
-      // safely write the receipt (Booking) to the ledger.
+      // Since we successfully secured the inventory, we can now safely write.
       const booking = manager.create(BookingEntity, {
         userEmail: data.userEmail,
         ticketTierId: data.ticketTierId,
@@ -82,5 +81,12 @@ export class BookingRepository {
       where: filters,
       relations: relations,
     });
+  }
+
+  /**
+   * Deletes a booking by ID. Used for cleanup after failed payments.
+   */
+  async deleteById(id: string): Promise<void> {
+    await this.typeOrmRepo.delete({ id });
   }
 }
