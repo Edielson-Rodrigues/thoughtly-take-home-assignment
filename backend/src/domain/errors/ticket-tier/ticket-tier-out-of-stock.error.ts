@@ -1,8 +1,8 @@
 import { StatusCodes } from 'http-status-codes';
 
-import { AppException } from '@core/errors/app.exception';
+import { AppError } from '@core/errors/app.error';
 
-export class TicketTierOutOfStockException extends AppException {
+export class TicketTierOutOfStockError extends AppError {
   constructor() {
     super(StatusCodes.UNPROCESSABLE_ENTITY, 'The ticket tier is out of stock.');
   }

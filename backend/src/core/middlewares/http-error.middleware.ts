@@ -1,10 +1,10 @@
 import { FastifyError, FastifyReply, FastifyRequest } from 'fastify';
 import { StatusCodes } from 'http-status-codes';
 
-import { AppException } from '@core/errors/app.exception';
+import { AppError } from '@core/errors/app.error';
 
-export const httpExceptionHandler = (
-  error: FastifyError | Error | AppException,
+export const httpErrorHandler = (
+  error: FastifyError | Error | AppError,
   request: FastifyRequest,
   reply: FastifyReply,
 ) => {
@@ -12,7 +12,7 @@ export const httpExceptionHandler = (
   let message = 'Internal Server Error';
   let errorName = 'InternalServerError';
 
-  if (error instanceof AppException) {
+  if (error instanceof AppError) {
     statusCode = error.statusCode;
     message = error.message;
     errorName = error.name;
@@ -22,7 +22,7 @@ export const httpExceptionHandler = (
   }
 
   if (statusCode >= 500) {
-    request.log.error(error, `❌ Uncaught Exception on ${request.url}`);
+    request.log.error(error, `❌ Uncaught Error on ${request.url}`);
   } else {
     request.log.warn(`⚠️ Application Error: ${message}`);
   }

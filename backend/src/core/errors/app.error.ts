@@ -1,7 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
 
 /**
- * APP EXCEPTION (BASE)
+ * APP Error (BASE)
  *
  * The foundational error class for the entire application.
  *
@@ -10,10 +10,10 @@ import { StatusCodes } from 'http-status-codes';
  * 2. Supports dynamic message formatting using {{key}} placeholders.
  *
  * @example
- * throw new AppException(StatusCodes.NOT_FOUND, "User {{id}} not found", { id: 123 });
+ * throw new AppError(StatusCodes.NOT_FOUND, "User {{id}} not found", { id: 123 });
  * Result Message: "User 123 not found"
  */
-export class AppException extends Error {
+export class AppError extends Error {
   public readonly statusCode: StatusCodes;
   public readonly params?: Record<string, any>;
 
