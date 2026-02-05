@@ -41,5 +41,5 @@ export class ConcertEntity implements IConcert {
     type: 'timestamptz',
     nullable: true,
   })
-  updatedAt: Date;
+  updatedAt?: Date;
 }

@@ -8,7 +8,7 @@ export interface IConcert {
   date: Date;
   ticketTiers?: TicketTierEntity[];
   createdAt: Date;
-  updatedAt: Date;
+  updatedAt?: Date;
 }
 
 export type ConcertRelations = Record<'ticketTiers', boolean>;

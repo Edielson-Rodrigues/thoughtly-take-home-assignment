@@ -9,7 +9,7 @@ export class ConcertMock implements IConcert {
   public readonly location: string;
   public readonly date: Date;
   public readonly createdAt: Date;
-  public readonly updatedAt: Date;
+  public readonly updatedAt?: Date;
 
   constructor() {
     this.id = faker.string.uuid();
