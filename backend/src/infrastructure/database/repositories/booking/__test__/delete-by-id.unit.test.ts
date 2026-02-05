@@ -1,4 +1,4 @@
-import { BookingMock } from '@domain/entities/booking/__mocks__/booking.mocks';
+import { BookingMock } from '@domain/entities/booking/__mocks__/booking.mock';
 
 import { BookingRepository } from '../booking.repository';
 

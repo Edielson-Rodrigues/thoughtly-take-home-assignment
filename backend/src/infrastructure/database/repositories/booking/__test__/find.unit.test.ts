@@ -1,6 +1,6 @@
 import { FindOptionsWhere } from 'typeorm';
 
-import { BookingMock } from '@domain/entities/booking/__mocks__/booking.mocks';
+import { BookingMock } from '@domain/entities/booking/__mocks__/booking.mock';
 import { BookingEntity } from '@domain/entities/booking/booking.entity';
 import { BookingRelations } from '@domain/entities/booking/booking.interface';
 

@@ -1,6 +1,6 @@
 import { EntityManager } from 'typeorm';
 
-import { BookingMock } from '@domain/entities/booking/__mocks__/booking.mocks';
+import { BookingMock } from '@domain/entities/booking/__mocks__/booking.mock';
 import { BookingEntity } from '@domain/entities/booking/booking.entity';
 import { CreateBooking } from '@domain/entities/booking/booking.interface';
 import { TicketTierMock } from '@domain/entities/ticket-tier/__mocks__/ticket-tier.mock';
