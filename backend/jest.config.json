@@ -8,7 +8,15 @@
   "transformIgnorePatterns": [
     "node_modules/(?!@faker-js)"
   ],
-  "collectCoverageFrom": ["**/*.(t|j)s"],
+  "collectCoverageFrom": [
+    "src/app/**/*.{ts,js}",
+    "src/infrastructure/**/*.{ts,js}",
+    "!src/infrastructure/database/migrations/*.{ts,js}",
+    "!src/**/*.d.ts",
+    "!src/**/__test__/**"
+  ],
+  "testPathIgnorePatterns": ["/node_modules/", "/dist/"],
+  "coveragePathIgnorePatterns": ["/node_modules/", "/dist/"],
   "coverageDirectory": "coverage",
   "testEnvironment": "jest-environment-node",
   "moduleNameMapper": {
