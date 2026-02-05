@@ -28,7 +28,10 @@ export class DatabaseProvider {
     const dataSource = new DataSource({
       type: 'postgres',
       entities: [path.join(__dirname, '..', '..', 'domain', 'entities', '**', '*.entity.{ts,js}')],
-      migrations: [path.join(__dirname, '..', 'migrations', '*.{ts,js}')],
+      migrations: [
+        path.join(__dirname, '..', 'migrations', '*.{ts,js}'),
+        path.join(__dirname, '..', 'seeds', '*.{ts,js}'),
+      ],
       synchronize: false,
       migrationsRun: false,
       logging: true,
