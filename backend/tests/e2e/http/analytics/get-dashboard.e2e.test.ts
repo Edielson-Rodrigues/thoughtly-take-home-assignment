@@ -67,7 +67,7 @@ describe('Analytics -> Get Dashboard (GET /api/analytics/dashboard)', () => {
 
     expect(body).toEqual({
       summary: {
-        totalRevenue: 200, // 2 ingressos * 100
+        totalRevenue: 200,
         totalTicketsSold: 2,
       },
       salesOverTime: expect.arrayContaining([

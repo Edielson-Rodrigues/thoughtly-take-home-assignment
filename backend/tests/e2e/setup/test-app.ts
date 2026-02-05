@@ -6,7 +6,7 @@ import ajvErrors from 'ajv-errors';
 import { FastifyInstance } from 'fastify';
 import Fastify from 'fastify';
 import pino from 'pino';
-import { DataSource } from 'typeorm'; // Assumindo TypeORM
+import { DataSource } from 'typeorm';
 
 import { CacheProvider } from '../../../src/infrastructure/cache/cache.provider';
 import { DatabaseProvider } from '../../../src/infrastructure/database/database.provider';
