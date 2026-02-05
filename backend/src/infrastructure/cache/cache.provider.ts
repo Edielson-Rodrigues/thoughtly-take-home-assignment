@@ -1,8 +1,7 @@
+import { Logger } from '@shared/logger';
 import Redis from 'ioredis';
 
 import { CacheConfig } from '@config/validators/cache.validator';
-
-import { Logger } from '../../shared/logger';
 
 /**
  * Cache Provider
@@ -41,7 +40,7 @@ export class CacheProvider {
       return this.instance;
     } catch (error) {
       logger.error(error, 'Cache connection failed');
-      process.exit(1);
+      throw error;
     }
   }
 
