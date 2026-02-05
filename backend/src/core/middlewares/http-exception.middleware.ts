@@ -1,8 +1,9 @@
-import { AppException } from '@core/errors/app.exception';
 import { FastifyError, FastifyReply, FastifyRequest } from 'fastify';
 import { StatusCodes } from 'http-status-codes';
 
-export const globalErrorHandler = (
+import { AppException } from '@core/errors/app.exception';
+
+export const httpExceptionHandler = (
   error: FastifyError | Error | AppException,
   request: FastifyRequest,
   reply: FastifyReply,
