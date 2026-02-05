@@ -4,6 +4,8 @@ import { DataSource } from 'typeorm';
 
 import { DatabaseConfig } from '@config/validators/database.validator';
 
+import { Logger } from '../../shared/logger';
+
 /**
  * Database Provider
  *
@@ -34,13 +36,14 @@ export class DatabaseProvider {
       logging: true,
     });
 
+    const logger = Logger.getInstance();
     try {
       await dataSource.initialize();
       this.instance = dataSource;
-      console.log('🔌 Database connected successfully');
+      logger.info('Database connected successfully');
       return this.instance;
     } catch (error) {
-      console.error('❌ Database connection failed', error);
+      logger.error(error, 'Database connection failed');
       process.exit(1);
     }
   }
@@ -50,7 +53,7 @@ export class DatabaseProvider {
    */
   public static getDataSource(): DataSource {
     if (!this.instance || !this.instance.isInitialized) {
-      throw new Error('❌ Database not initialized. Call .connect() first.');
+      throw new Error('Database not initialized. Call .connect() first.');
     }
     return this.instance;
   }

@@ -2,6 +2,8 @@ import Redis from 'ioredis';
 
 import { CacheConfig } from '@config/validators/cache.validator';
 
+import { Logger } from '../../shared/logger';
+
 /**
  * Cache Provider
  *
@@ -31,13 +33,14 @@ export class CacheProvider {
       },
     });
 
+    const logger = Logger.getInstance();
     try {
       await client.connect();
       this.instance = client;
-      console.log('⚡ Cache connected successfully');
+      logger.info('Cache connected successfully');
       return this.instance;
     } catch (error) {
-      console.error('❌ Cache connection failed', error);
+      logger.error(error, 'Cache connection failed');
       process.exit(1);
     }
   }
