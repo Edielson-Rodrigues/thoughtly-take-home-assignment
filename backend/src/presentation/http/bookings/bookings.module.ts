@@ -1,3 +1,4 @@
+import { Logger } from '@shared/logger';
 import Redis from 'ioredis';
 import { DataSource } from 'typeorm';
 
@@ -8,7 +9,6 @@ import { TicketTierRepository } from '@database/repositories/ticket-tier/ticket-
 
 import { ConcertUpdateSubject } from '../../../infrastructure/events/concert/concert-update.subject';
 import { PaymentGatewayProvider } from '../../../infrastructure/providers/payment-gateway/payment-gatewat.provider';
-import { Logger } from '../../../shared/logger';
 
 import { BookingsController } from './bookings.controller';
 
