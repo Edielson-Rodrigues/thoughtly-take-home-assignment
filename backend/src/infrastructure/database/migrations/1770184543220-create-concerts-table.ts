@@ -53,7 +53,7 @@ export class CreateConcertsTable1770184543220 implements MigrationInterface {
           {
             name: 'updated_at',
             type: 'timestamptz',
-            default: 'now()',
+            default: null,
             isNullable: true,
           },
         ],
