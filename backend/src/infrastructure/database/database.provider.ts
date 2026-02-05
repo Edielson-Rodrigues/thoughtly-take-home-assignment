@@ -1,10 +1,9 @@
 import path from 'path';
 
+import { Logger } from '@shared/logger';
 import { DataSource } from 'typeorm';
 
 import { DatabaseConfig } from '@config/validators/database.validator';
-
-import { Logger } from '../../shared/logger';
 
 /**
  * Database Provider
@@ -27,13 +26,16 @@ export class DatabaseProvider {
     }
 
     const dataSource = new DataSource({
-      ...config,
       type: 'postgres',
-      entities: [path.join(__dirname, '..', '..', 'domain', 'entities', '**', '*.entity.{ts,js}')],
-      migrations: [path.join(__dirname, '..', 'migrations', '*.{ts,js}')],
+      entities: [path.join(process.cwd(), 'src', 'domain', 'entities', '**', '*.entity.ts')],
+      migrations: [
+        path.join(process.cwd(), 'src', 'infrastructure', 'database', 'migrations', '*.ts'),
+        path.join(process.cwd(), 'src', 'infrastructure', 'database', 'seeds', '*.ts'),
+      ],
       synchronize: false,
       migrationsRun: false,
       logging: true,
+      ...config,
     });
 
     const logger = Logger.getInstance();
@@ -44,7 +46,7 @@ export class DatabaseProvider {
       return this.instance;
     } catch (error) {
       logger.error(error, 'Database connection failed');
-      process.exit(1);
+      throw error;
     }
   }
 
