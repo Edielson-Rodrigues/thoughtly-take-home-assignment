@@ -3,12 +3,12 @@ import { Type, Static } from '@sinclair/typebox';
 export const ConcertSchema = Type.Object(
   {
     id: Type.String({ format: 'uuid' }),
-    name: Type.String({ example: 'Festival de Verão' }),
+    name: Type.String({ maxLength: 255 }),
     description: Type.String(),
-    location: Type.String(),
+    location: Type.String({ maxLength: 255 }),
     date: Type.String({ format: 'date-time' }),
     createdAt: Type.String({ format: 'date-time' }),
-    updatedAt: Type.Union([Type.String({ format: 'date-time' }), Type.Null()]),
+    updatedAt: Type.Optional(Type.String({ format: 'date-time' })),
   },
   { $id: 'Concert' },
 );

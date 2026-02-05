@@ -3,7 +3,7 @@ import { Type, Static } from '@sinclair/typebox';
 export const BookingSchema = Type.Object(
   {
     id: Type.String({ format: 'uuid' }),
-    userEmail: Type.String({ format: 'email' }),
+    userEmail: Type.String({ format: 'email', maxLength: 255 }),
     quantity: Type.Integer(),
     totalPrice: Type.Number(),
     ticketTierId: Type.String({ format: 'uuid' }),
