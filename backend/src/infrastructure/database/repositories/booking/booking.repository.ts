@@ -27,9 +27,11 @@ export class BookingRepository {
    * 1. Starting a database transaction.
    * 2. Attempting to decrement stock ONLY IF available > quantity.
    * 3. Creating the booking record only if step 2 succeeds.
+   * 4. Using unique constraint on idempotency_key to prevent simultaneous duplicates.
    *
    * This logic ensures that 50,000 concurrent users can never buy
-   * more tickets than physically exist.
+   * more tickets than physically exist AND prevents duplicate bookings
+   * even when requests arrive within milliseconds of each other.
    */
   async createWithAtomicLock(data: CreateBooking): Promise<BookingEntity> {
     return await this.dataSource.transaction(async (manager) => {

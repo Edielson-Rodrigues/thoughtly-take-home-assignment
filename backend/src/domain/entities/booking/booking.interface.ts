@@ -7,6 +7,7 @@ export interface IBooking {
   totalPrice: number;
   ticketTier?: TicketTierEntity;
   ticketTierId: string;
+  idempotencyKey: string;
   createdAt: Date;
 }
 

@@ -8,6 +8,7 @@ export class BookingMock implements IBooking {
   public readonly quantity: number;
   public readonly totalPrice: number;
   public readonly ticketTierId: string;
+  public readonly idempotencyKey: string;
   public readonly createdAt: Date;
 
   constructor() {
@@ -19,6 +20,7 @@ export class BookingMock implements IBooking {
       max: 1000,
     });
     this.ticketTierId = faker.string.uuid();
+    this.idempotencyKey = faker.string.uuid();
     this.createdAt = faker.date.past();
   }
 

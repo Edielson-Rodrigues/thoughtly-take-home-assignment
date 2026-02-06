@@ -45,6 +45,12 @@ export class CreateBookingsTable1770184569270 implements MigrationInterface {
             isNullable: false,
           },
           {
+            name: 'idempotency_key',
+            type: 'uuid',
+            isNullable: false,
+            isUnique: true,
+          },
+          {
             name: 'created_at',
             type: 'timestamptz',
             default: 'now()',

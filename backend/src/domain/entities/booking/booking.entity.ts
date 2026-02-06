@@ -1,4 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne, JoinColumn, Index } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  ManyToOne,
+  JoinColumn,
+  Index,
+  Unique,
+} from 'typeorm';
 
 import { TicketTierEntity } from '../ticket-tier/ticket-tier.entity';
 
@@ -7,6 +16,7 @@ import { IBooking } from './booking.interface';
 @Entity('bookings')
 @Index('idx__bookings__user_email', ['userEmail'])
 @Index('idx__bookings__ticket_tier_id', ['ticketTierId'])
+@Unique('uq__bookings__idempotency_key', ['idempotencyKey'])
 export class BookingEntity implements IBooking {
   @PrimaryGeneratedColumn('uuid', { name: 'id' })
   id: string;
@@ -30,6 +40,9 @@ export class BookingEntity implements IBooking {
     nullable: false,
   })
   totalPrice: number;
+
+  @Column({ name: 'idempotency_key', type: 'uuid', nullable: false })
+  idempotencyKey: string;
 
   @ManyToOne(() => TicketTierEntity, (tier) => tier.bookings)
   @JoinColumn({ name: 'ticket_tier_id' })

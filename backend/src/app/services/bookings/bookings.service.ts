@@ -62,6 +62,7 @@ export class BookingService {
       ticketTierId: data.ticketTierId,
       quantity: data.quantity,
       totalPrice: data.totalPrice,
+      idempotencyKey: data.idempotencyKey,
     });
 
     const isPaid = await this.paymentGatewayProvider.process(data.totalPrice, data.currency);

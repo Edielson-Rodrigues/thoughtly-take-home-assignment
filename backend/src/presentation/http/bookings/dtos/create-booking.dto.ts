@@ -11,7 +11,7 @@ export const CreateBookingBodySchema = Type.Object(
     quantity: Type.Integer({ minimum: 1, maximum: 10, errorMessage: 'Quantity must be between 1 and 10' }),
     totalPrice: Type.Number({ minimum: 0, errorMessage: 'Total price must be a positive number' }),
     currency: Type.Enum(SupportedCurrencies, { errorMessage: 'Currency must be a valid ISO 4217 code' }),
-    idempotencyKey: Type.String({ minLength: 10, errorMessage: 'Idempotency key must be at least 10 characters long' }),
+    idempotencyKey: Type.String({ format: 'uuid', errorMessage: 'Idempotency key must be a valid UUID' }),
   },
   {
     $id: 'CreateBookingBody',
