@@ -25,10 +25,12 @@ describe('Service -> Analytics -> Get Dashboard', () => {
     {
       tierName: 'VIP',
       revenue: 600,
+      concertName: '',
     },
     {
       tierName: 'General',
       revenue: 400,
+      concertName: '',
     },
   ];
 
@@ -62,11 +64,13 @@ describe('Service -> Analytics -> Get Dashboard', () => {
           tierName: 'VIP',
           revenue: 600,
           percentage: 60,
+          concertName: '',
         },
         {
           tierName: 'General',
           revenue: 400,
           percentage: 40,
+          concertName: '',
         },
       ];
 
@@ -118,11 +122,13 @@ describe('Service -> Analytics -> Get Dashboard', () => {
           tierName: 'VIP',
           revenue: 600,
           percentage: 0,
+          concertName: '',
         },
         {
           tierName: 'General',
           revenue: 400,
           percentage: 0,
+          concertName: '',
         },
       ];
 

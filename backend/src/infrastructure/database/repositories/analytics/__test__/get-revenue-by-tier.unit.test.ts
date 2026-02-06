@@ -15,10 +15,12 @@ describe('Database -> Analytics Repository - Get Revenue By Tier', () => {
     {
       tierName: 'VIP',
       revenue: '500.00',
+      concertName: '',
     },
     {
       tierName: 'General',
       revenue: '300.00',
+      concertName: '',
     },
   ];
 
@@ -57,10 +59,12 @@ describe('Database -> Analytics Repository - Get Revenue By Tier', () => {
         {
           tierName: 'VIP',
           revenue: 500,
+          concertName: '',
         },
         {
           tierName: 'General',
           revenue: 300,
+          concertName: '',
         },
       ]);
 
@@ -73,8 +77,9 @@ describe('Database -> Analytics Repository - Get Revenue By Tier', () => {
       expect(queryBuilderMock.select).toHaveBeenCalledTimes(1);
       expect(queryBuilderMock.select).toHaveBeenCalledWith('tier.name', 'tierName');
 
-      expect(queryBuilderMock.addSelect).toHaveBeenCalledTimes(1);
-      expect(queryBuilderMock.addSelect).toHaveBeenCalledWith('SUM(booking.total_price)', 'revenue');
+      expect(queryBuilderMock.addSelect).toHaveBeenCalledTimes(2);
+      expect(queryBuilderMock.addSelect).toHaveBeenNthCalledWith(1, 'concert.name', 'concertName');
+      expect(queryBuilderMock.addSelect).toHaveBeenNthCalledWith(2, 'SUM(booking.total_price)', 'revenue');
 
       expect(queryBuilderMock.leftJoin).toHaveBeenCalledTimes(2);
       expect(queryBuilderMock.leftJoin).toHaveBeenNthCalledWith(1, 'booking.ticketTier', 'tier');
@@ -85,17 +90,18 @@ describe('Database -> Analytics Repository - Get Revenue By Tier', () => {
         concertId: filters.concertId,
       });
       expect(queryBuilderMock.andWhere).toHaveBeenNthCalledWith(2, 'booking.created_at >= :startDate', {
-        startDate: filters.startDate,
+        startDate: new Date(filters.startDate!),
       });
       expect(queryBuilderMock.andWhere).toHaveBeenNthCalledWith(3, 'booking.created_at <= :endDate', {
-        endDate: filters.endDate,
+        endDate: new Date(filters.endDate!),
       });
 
       expect(queryBuilderMock.groupBy).toHaveBeenCalledTimes(1);
       expect(queryBuilderMock.groupBy).toHaveBeenCalledWith('tier.id');
 
-      expect(queryBuilderMock.addGroupBy).toHaveBeenCalledTimes(1);
-      expect(queryBuilderMock.addGroupBy).toHaveBeenCalledWith('tier.name');
+      expect(queryBuilderMock.addGroupBy).toHaveBeenCalledTimes(2);
+      expect(queryBuilderMock.addGroupBy).toHaveBeenNthCalledWith(1, 'tier.name');
+      expect(queryBuilderMock.addGroupBy).toHaveBeenNthCalledWith(2, 'concert.name');
 
       expect(queryBuilderMock.orderBy).toHaveBeenCalledTimes(1);
       expect(queryBuilderMock.orderBy).toHaveBeenCalledWith('revenue', 'DESC');
@@ -112,10 +118,12 @@ describe('Database -> Analytics Repository - Get Revenue By Tier', () => {
         {
           tierName: 'VIP',
           revenue: 500,
+          concertName: '',
         },
         {
           tierName: 'General',
           revenue: 300,
+          concertName: '',
         },
       ]);
 
@@ -123,6 +131,7 @@ describe('Database -> Analytics Repository - Get Revenue By Tier', () => {
       expect(queryBuilderMock.andWhere).not.toHaveBeenCalled();
       expect(queryBuilderMock.groupBy).toHaveBeenCalledWith('tier.id');
       expect(queryBuilderMock.addGroupBy).toHaveBeenCalledWith('tier.name');
+      expect(queryBuilderMock.addGroupBy).toHaveBeenCalledWith('concert.name');
       expect(queryBuilderMock.orderBy).toHaveBeenCalledWith('revenue', 'DESC');
     });
 

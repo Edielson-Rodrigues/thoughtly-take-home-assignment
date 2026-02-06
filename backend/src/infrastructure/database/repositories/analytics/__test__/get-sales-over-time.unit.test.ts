@@ -90,10 +90,10 @@ describe('Database -> Analytics Repository - Get Sales Over Time', () => {
         concertId: filters.concertId,
       });
       expect(queryBuilderMock.andWhere).toHaveBeenNthCalledWith(2, 'booking.created_at >= :startDate', {
-        startDate: filters.startDate,
+        startDate: new Date(filters.startDate!),
       });
       expect(queryBuilderMock.andWhere).toHaveBeenNthCalledWith(3, 'booking.created_at <= :endDate', {
-        endDate: filters.endDate,
+        endDate: new Date(filters.endDate!),
       });
 
       expect(queryBuilderMock.groupBy).toHaveBeenCalledTimes(1);
