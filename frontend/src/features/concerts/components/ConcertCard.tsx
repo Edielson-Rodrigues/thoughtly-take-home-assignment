@@ -1,4 +1,7 @@
-import { Card, CardHeader, CardContent, Badge } from '../../../components/ui';
+import { useState } from 'react';
+
+import { Card, CardHeader, CardContent, CardFooter, Badge, Button } from '../../../components/ui';
+import { BookingModal } from '../../bookings';
 import type { Concert, TicketTier } from '../types';
 
 interface ConcertCardProps {
@@ -37,10 +40,10 @@ interface TicketTierRowProps {
 
 function TicketTierRow({ tier }: TicketTierRowProps) {
   return (
-    <div className="flex items-center justify-between p-2 rounded-lg bg-gray-50 animate-flash">
-      <div className="flex-1">
-        <span className="font-medium text-gray-900">{tier.name}</span>
-        <span className="ml-2 text-blue-600 font-semibold">
+    <div className="flex items-center justify-between py-2 animate-flash">
+      <div className="flex items-center gap-2">
+        <span className="text-sm text-gray-900">{tier.name}</span>
+        <span className="text-sm text-blue-600 font-medium">
           {formatPrice(tier.price)}
         </span>
       </div>
@@ -54,14 +57,21 @@ function TicketTierRow({ tier }: TicketTierRowProps) {
 }
 
 export function ConcertCard({ concert }: ConcertCardProps) {
-  return (
-    <Card className="hover:shadow-lg transition-shadow duration-200">
-      <CardHeader className="bg-linear-to-r from-blue-600 to-indigo-600">
-        <h3 className="text-lg font-semibold text-white truncate">{concert.name}</h3>
-        <p className="text-blue-100 text-sm mt-1">{concert.location}</p>
-      </CardHeader>
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-      <CardContent>
+  const hasAvailableTickets = concert.ticketTiers?.some(
+    (tier) => tier.availableQuantity > 0
+  );
+
+  return (
+    <>
+      <Card className="hover:shadow-lg transition-shadow duration-200 flex flex-col">
+        <CardHeader className="bg-linear-to-r from-blue-600 to-indigo-600">
+          <h3 className="text-lg font-semibold text-white truncate">{concert.name}</h3>
+          <p className="text-blue-100 text-sm mt-1">{concert.location}</p>
+        </CardHeader>
+
+      <CardContent className="flex-1">
         <div className="mb-4">
           <div className="flex items-center text-gray-600 text-sm mb-2">
             <svg
@@ -83,14 +93,40 @@ export function ConcertCard({ concert }: ConcertCardProps) {
         </div>
 
         <div className="border-t border-gray-100 pt-4">
-          <h4 className="text-sm font-medium text-gray-700 mb-3">Ticket Tiers</h4>
-          <div className="space-y-2">
-            {concert.ticketTiers?.map((tier) => (
-              <TicketTierRow key={`${tier.id}-${tier.availableQuantity}`} tier={tier} />
-            ))}
+          <h4 className="text-sm font-medium text-gray-700 mb-2">Ticket Tiers</h4>
+          <div className="divide-y divide-gray-100">
+            {concert.ticketTiers
+              ?.slice()
+              .sort((a, b) => Number(b.price) - Number(a.price))
+              .map((tier) => (
+                <TicketTierRow
+                  key={`${tier.id}-${tier.availableQuantity}`}
+                  tier={tier}
+                />
+              ))}
           </div>
         </div>
       </CardContent>
+
+      <CardFooter>
+        <Button
+          onClick={() => setIsModalOpen(true)}
+          disabled={!hasAvailableTickets}
+          className="w-full"
+        >
+          {hasAvailableTickets ? 'Book Tickets' : 'Sold Out'}
+        </Button>
+      </CardFooter>
     </Card>
+
+    {isModalOpen && concert.ticketTiers && (
+      <BookingModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        ticketTiers={concert.ticketTiers}
+        concertName={concert.name}
+      />
+    )}
+  </>
   );
 }
