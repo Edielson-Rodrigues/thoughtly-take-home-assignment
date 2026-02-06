@@ -42,9 +42,6 @@ services:
   # -------------------------
   # Backend (Node API)
   # -------------------------
-# -------------------------
-  # Backend (Node API)
-  # -------------------------
   backend:
     build: 
       context: ./backend
@@ -63,6 +60,21 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
+
+  # -------------------------
+  # Frontend (React + Nginx)
+  # -------------------------
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: concert_bookings_frontend
+    ports:
+      - "5173:80"
+    env_file:
+      - .env
+    depends_on:
+      - backend
 
 volumes:
   postgres_data:
