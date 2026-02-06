@@ -20,12 +20,12 @@ function SalesChartTooltip({ active, payload }: { active?: boolean; payload?: Ar
   if (active && payload && payload.length) {
     const data = payload[0].payload;
     return (
-      <div className="bg-white border border-gray-200 rounded-lg shadow-lg px-3 py-2">
-        <p className="text-xs font-medium text-gray-900">
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg px-3 py-2">
+        <p className="text-xs font-medium text-gray-900 dark:text-gray-100">
           {new Date(data.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
         </p>
-        <p className="text-sm font-semibold text-blue-600">{formatCurrency(data.revenue)}</p>
-        <p className="text-xs text-gray-500">{data.tickets} tickets</p>
+        <p className="text-sm font-semibold text-blue-600 dark:text-blue-400">{formatCurrency(data.revenue)}</p>
+        <p className="text-xs text-gray-500 dark:text-gray-400">{data.tickets} tickets</p>
       </div>
     );
   }
@@ -41,9 +41,9 @@ export function SalesChart({ data }: { data: SalesDataPoint[] }) {
   }));
 
   return (
-    <div className="w-full h-64">
+    <div className="w-full h-56 sm:h-64">
       <ResponsiveContainer width="100%" height="100%">
-        <AreaChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+        <AreaChart data={chartData} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
           <defs>
             <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
               <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3} />
@@ -53,15 +53,17 @@ export function SalesChart({ data }: { data: SalesDataPoint[] }) {
           <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
           <XAxis
             dataKey="dateLabel"
-            tick={{ fontSize: 12, fill: '#6b7280' }}
+            tick={{ fontSize: 10, fill: '#6b7280' }}
             tickLine={false}
             axisLine={{ stroke: '#e5e7eb' }}
+            interval="preserveStartEnd"
           />
           <YAxis
-            tick={{ fontSize: 12, fill: '#6b7280' }}
+            tick={{ fontSize: 10, fill: '#6b7280' }}
             tickLine={false}
             axisLine={{ stroke: '#e5e7eb' }}
-            tickFormatter={(value) => `$${value >= 1000 ? `${(value / 1000).toFixed(1)}k` : value}`}
+            tickFormatter={(value) => `$${value >= 1000 ? `${(value / 1000).toFixed(0)}k` : value}`}
+            width={45}
           />
           <Tooltip content={<SalesChartTooltip />} />
           <Area
@@ -71,15 +73,15 @@ export function SalesChart({ data }: { data: SalesDataPoint[] }) {
             strokeWidth={2}
             fillOpacity={1}
             fill="url(#colorRevenue)"
-            dot={{ fill: '#3b82f6', strokeWidth: 2, r: 4 }}
-            activeDot={{ r: 6, fill: '#3b82f6' }}
+            dot={{ fill: '#3b82f6', strokeWidth: 2, r: 3 }}
+            activeDot={{ r: 5, fill: '#3b82f6' }}
           />
         </AreaChart>
       </ResponsiveContainer>
       <div className="flex justify-center gap-6 mt-4 text-sm">
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 rounded-full bg-blue-500" />
-          <span className="text-gray-600">Revenue</span>
+          <span className="text-gray-600 dark:text-gray-400">Revenue</span>
         </div>
       </div>
     </div>

@@ -42,8 +42,8 @@ function TicketTierRow({ tier }: TicketTierRowProps) {
   return (
     <div className="flex items-center justify-between py-2 animate-flash">
       <div className="flex items-center gap-2">
-        <span className="text-sm text-gray-900">{tier.name}</span>
-        <span className="text-sm text-blue-600 font-medium">
+        <span className="text-sm text-gray-900 dark:text-gray-100">{tier.name}</span>
+        <span className="text-sm text-blue-600 dark:text-blue-400 font-medium">
           {formatPrice(tier.price)}
         </span>
       </div>
@@ -73,7 +73,7 @@ export function ConcertCard({ concert }: ConcertCardProps) {
 
       <CardContent className="flex-1">
         <div className="mb-4">
-          <div className="flex items-center text-gray-600 text-sm mb-2">
+          <div className="flex items-center text-gray-600 dark:text-gray-400 text-sm mb-2">
             <svg
               className="w-4 h-4 mr-2"
               fill="none"
@@ -89,12 +89,12 @@ export function ConcertCard({ concert }: ConcertCardProps) {
             </svg>
             {formatDate(concert.date)}
           </div>
-          <p className="text-gray-600 text-sm line-clamp-2">{concert.description}</p>
+          <p className="text-gray-600 dark:text-gray-400 text-sm line-clamp-2">{concert.description}</p>
         </div>
 
-        <div className="border-t border-gray-100 pt-4">
-          <h4 className="text-sm font-medium text-gray-700 mb-2">Ticket Tiers</h4>
-          <div className="divide-y divide-gray-100">
+        <div className="border-t border-gray-100 dark:border-gray-700 pt-4">
+          <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Ticket Tiers</h4>
+          <div className="divide-y divide-gray-100 dark:divide-gray-700">
             {concert.ticketTiers
               ?.slice()
               .sort((a, b) => Number(b.price) - Number(a.price))

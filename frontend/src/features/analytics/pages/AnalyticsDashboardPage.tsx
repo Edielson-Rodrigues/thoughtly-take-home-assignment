@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { Card, CardHeader, CardContent, Alert } from '../../../components/ui';
+import { Card, CardHeader, CardContent, Alert, ThemeToggle } from '../../../components/ui';
 import { formatCurrency } from '../../../lib/utils';
 import { useConcerts } from '../../concerts/hooks/useConcerts';
 import { useAnalytics } from '../hooks/useAnalytics';
@@ -21,7 +21,7 @@ const TicketIcon = () => (
   </svg>
 );
 
-const selectClass = "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500";
+const selectClass = "w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500";
 
 export function AnalyticsDashboardPage() {
   const [filters, setFilters] = useState<DashboardFilters>({ period: DashboardPeriods.DAY });
@@ -58,7 +58,7 @@ export function AnalyticsDashboardPage() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto" />
-          <p className="mt-4 text-gray-600">Loading analytics...</p>
+          <p className="mt-4 text-gray-600 dark:text-gray-400">Loading analytics...</p>
         </div>
       </div>
     );
@@ -73,18 +73,23 @@ export function AnalyticsDashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex items-center justify-between">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <header className="bg-white dark:bg-gray-800 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Analytics Dashboard</h1>
-              <p className="mt-1 text-gray-600">Track sales performance and revenue metrics</p>
+              <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white">Analytics Dashboard</h1>
+              <p className="mt-1 text-sm sm:text-base text-gray-600 dark:text-gray-400">Track sales performance and revenue metrics</p>
             </div>
-            <Link to="/" className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-              <TicketIcon />
-              Concerts
-            </Link>
+            <div className="flex items-center gap-2 sm:gap-3">
+              <ThemeToggle />
+              <Link to="/" className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
+                </svg>
+                <span>Concerts</span>
+              </Link>
+            </div>
           </div>
         </div>
       </header>
@@ -95,25 +100,25 @@ export function AnalyticsDashboardPage() {
           <CardContent className="p-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Concert</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Concert</label>
                 <select value={filters.concertId || ''} onChange={(e) => updateFilter('concertId', e.target.value || undefined)} className={selectClass}>
                   <option value="">All Concerts</option>
                   {concerts?.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Group By</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Group By</label>
                 <select value={filters.period} onChange={(e) => updateFilter('period', e.target.value as DashboardPeriod)} className={selectClass}>
                   <option value={DashboardPeriods.DAY}>Day</option>
                   <option value={DashboardPeriods.WEEK}>Week</option>
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Start Date</label>
                 <input type="date" value={startDateValue} max={endDateValue || today} onChange={(e) => handleDateChange('start', e.target.value)} className={selectClass} />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">End Date</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">End Date</label>
                 <input type="date" value={endDateValue} min={startDateValue} max={today} onChange={(e) => handleDateChange('end', e.target.value)} className={selectClass} />
               </div>
             </div>
@@ -129,16 +134,16 @@ export function AnalyticsDashboardPage() {
         {/* Charts */}
         <div className="space-y-8">
           <Card>
-            <CardHeader><h3 className="text-lg font-semibold text-gray-900">Sales Over Time</h3></CardHeader>
+            <CardHeader><h3 className="text-lg font-semibold text-gray-900 dark:text-white">Sales Over Time</h3></CardHeader>
             <CardContent>
-              {dashboard?.salesOverTime?.length ? <SalesChart data={dashboard.salesOverTime} /> : <p className="text-gray-500 text-center py-8">No sales data available</p>}
+              {dashboard?.salesOverTime?.length ? <SalesChart data={dashboard.salesOverTime} /> : <p className="text-gray-500 dark:text-gray-400 text-center py-8">No sales data available</p>}
             </CardContent>
           </Card>
 
           <Card>
-            <CardHeader><h3 className="text-lg font-semibold text-gray-900">Revenue by Tier</h3></CardHeader>
+            <CardHeader><h3 className="text-lg font-semibold text-gray-900 dark:text-white">Revenue by Tier</h3></CardHeader>
             <CardContent>
-              {dashboard?.revenueByTier?.length ? <RevenueByTierChart data={dashboard.revenueByTier} /> : <p className="text-gray-500 text-center py-8">No tier data available</p>}
+              {dashboard?.revenueByTier?.length ? <RevenueByTierChart data={dashboard.revenueByTier} /> : <p className="text-gray-500 dark:text-gray-400 text-center py-8">No tier data available</p>}
             </CardContent>
           </Card>
         </div>

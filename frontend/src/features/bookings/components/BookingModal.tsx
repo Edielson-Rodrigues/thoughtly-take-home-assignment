@@ -102,7 +102,7 @@ export function BookingModal({
     return (
       <Modal isOpen={isOpen} onClose={handleClose} title="Select Ticket Tier">
         <div className="space-y-3">
-          <p className="text-sm text-gray-600 mb-4">{concertName}</p>
+          <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">{concertName}</p>
           {ticketTiers
             .slice()
             .sort((a, b) => Number(b.price) - Number(a.price))
@@ -116,14 +116,14 @@ export function BookingModal({
                 disabled={isSoldOut}
                 className={`w-full p-4 rounded-lg border text-left transition-all ${
                   isSoldOut
-                    ? 'bg-gray-50 border-gray-200 opacity-60 cursor-not-allowed'
-                    : 'bg-white border-gray-200 hover:border-blue-500 hover:shadow-md cursor-pointer'
+                    ? 'bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600 opacity-60 cursor-not-allowed'
+                    : 'bg-white dark:bg-gray-700 border-gray-200 dark:border-gray-600 hover:border-blue-500 hover:shadow-md cursor-pointer'
                 }`}
               >
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="font-medium text-gray-900">{tier.name}</p>
-                    <p className="text-blue-600 font-semibold">
+                    <p className="font-medium text-gray-900 dark:text-gray-100">{tier.name}</p>
+                    <p className="text-blue-600 dark:text-blue-400 font-semibold">
                       {formatCurrency(Number(tier.price))}
                     </p>
                   </div>
@@ -146,18 +146,18 @@ export function BookingModal({
     <Modal isOpen={isOpen} onClose={handleClose} title="Complete Booking">
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         {/* Selected Tier Info */}
-        <div className="rounded-lg bg-gray-50 p-3">
+        <div className="rounded-lg bg-gray-50 dark:bg-gray-700 p-3">
           <div className="flex items-center justify-between">
             <div>
-              <p className="font-medium text-gray-900">{concertName}</p>
-              <p className="text-sm text-gray-600">
+              <p className="font-medium text-gray-900 dark:text-gray-100">{concertName}</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
                 {selectedTier.name} - {formatCurrency(Number(selectedTier.price))} per ticket
               </p>
             </div>
             <button
               type="button"
               onClick={handleBack}
-              className="text-sm text-blue-600 hover:text-blue-700"
+              className="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300"
             >
               Change
             </button>
@@ -191,9 +191,9 @@ export function BookingModal({
         />
 
         {/* Price Summary */}
-        <div className="flex items-center justify-between rounded-lg bg-blue-50 p-3">
-          <span className="text-sm font-medium text-gray-700">Total</span>
-          <span className="text-lg font-bold text-blue-600">
+        <div className="flex items-center justify-between rounded-lg bg-blue-50 dark:bg-blue-900/30 p-3">
+          <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Total</span>
+          <span className="text-lg font-bold text-blue-600 dark:text-blue-400">
             {formatCurrency(totalPrice)}
           </span>
         </div>

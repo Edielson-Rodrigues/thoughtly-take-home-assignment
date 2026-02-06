@@ -4,3 +4,4 @@ export { Badge } from './Badge';
 export { Modal } from './Modal';
 export { Alert } from './Alert';
 export { Input } from './Input';
+export { ThemeToggle } from './ThemeToggle';

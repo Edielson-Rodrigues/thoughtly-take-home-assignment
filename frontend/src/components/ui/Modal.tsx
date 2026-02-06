@@ -21,14 +21,14 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
 
       {/* Modal */}
       <div className="flex min-h-full items-center justify-center p-4">
-        <div className="relative w-full max-w-md transform rounded-lg bg-white shadow-xl transition-all">
+        <div className="relative w-full max-w-md transform rounded-lg bg-white dark:bg-gray-800 shadow-xl transition-all">
           {/* Header */}
-          <div className="flex items-center justify-between border-b border-gray-200 px-4 py-3">
-            <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
+          <div className="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 px-4 py-3">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{title}</h3>
             <button
               type="button"
               onClick={onClose}
-              className="rounded-lg p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-500"
+              className="rounded-lg p-1 text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-500 dark:hover:text-gray-300"
             >
               <svg
                 className="h-5 w-5"

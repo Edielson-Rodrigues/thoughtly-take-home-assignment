@@ -1,7 +1,18 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
 body {
   @apply bg-gray-50 text-gray-900 antialiased min-h-screen;
+  @apply dark:bg-gray-900 dark:text-gray-100;
 }
 
 @keyframes flash {
@@ -13,6 +24,19 @@ body {
   }
 }
 
+@keyframes flash-dark {
+  0% {
+    background-color: rgb(133, 77, 14); /* yellow-800 */
+  }
+  100% {
+    background-color: rgb(17, 24, 39); /* gray-900 */
+  }
+}
+
 .animate-flash {
   animation: flash 1s ease-out;
+}
+
+.dark .animate-flash {
+  animation: flash-dark 1s ease-out;
 }
