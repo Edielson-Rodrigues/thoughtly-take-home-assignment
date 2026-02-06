@@ -41,7 +41,6 @@ describe('StatCard', () => {
 
   it('renders within a Card component', () => {
     const { container } = render(<StatCard title="Test" value="Value" icon={<span>Icon</span>} />);
-    // Check that the Card wrapper exists (has the Card's styling)
     expect(container.querySelector('.rounded-lg')).toBeInTheDocument();
   });
 });
