@@ -1,14 +1,17 @@
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useState } from 'react';
+import { useForm, useWatch } from 'react-hook-form';
 
 import { Modal, Button, Input, Alert, Badge } from '../../../components/ui';
-import { getApiErrorMessages, isApiErrorCode } from '../../../lib/api-error';
+import { getApiErrorMessages } from '../../../lib/api-error';
 import { generateIdempotencyKey, formatCurrency } from '../../../lib/utils';
-import { useCreateBooking } from '../hooks/useCreateBooking';
-import { bookingFormSchema } from '../schemas/booking.schema';
-import { SupportedCurrencies, BookingErrorCodes } from '../types';
-import type { BookingFormData } from '../schemas/booking.schema';
+import {
+  bookingFormSchema,
+  SupportedCurrencies,
+  useCreateBooking,
+  type BookingFormData,
+} from '../../bookings';
+
 import type { TicketTier } from '../../concerts/types';
 
 interface BookingModalProps {
@@ -25,12 +28,7 @@ function getAvailabilityVariant(tier: TicketTier): 'success' | 'warning' | 'dang
   return 'danger';
 }
 
-export function BookingModal({
-  isOpen,
-  onClose,
-  ticketTiers,
-  concertName,
-}: BookingModalProps) {
+export function BookingModal({ isOpen, onClose, ticketTiers, concertName }: BookingModalProps) {
   const [selectedTier, setSelectedTier] = useState<TicketTier | null>(null);
   const [apiErrors, setApiErrors] = useState<string[]>([]);
   const createBooking = useCreateBooking();
@@ -39,7 +37,7 @@ export function BookingModal({
     register,
     handleSubmit,
     reset,
-    watch,
+    control,
     formState: { errors },
   } = useForm<BookingFormData>({
     resolver: zodResolver(bookingFormSchema),
@@ -49,7 +47,12 @@ export function BookingModal({
     },
   });
 
-  const quantity = watch('quantity') || 1;
+  const quantity = useWatch({
+    control,
+    name: 'quantity',
+    defaultValue: 1,
+  });
+
   const totalPrice = selectedTier ? Number(selectedTier.price) * quantity : 0;
 
   const handleClose = () => {
@@ -87,13 +90,7 @@ export function BookingModal({
 
       handleClose();
     } catch (error) {
-      if (isApiErrorCode(error, BookingErrorCodes.SOLD_OUT)) {
-        setApiErrors(['These tickets just sold out. Please try another tier.']);
-      } else if (isApiErrorCode(error, BookingErrorCodes.PAYMENT_FAILED)) {
-        setApiErrors(['Payment failed. Please try again.']);
-      } else {
-        setApiErrors(getApiErrorMessages(error));
-      }
+      setApiErrors(getApiErrorMessages(error));
     }
   };
 
@@ -107,35 +104,33 @@ export function BookingModal({
             .slice()
             .sort((a, b) => Number(b.price) - Number(a.price))
             .map((tier) => {
-            const isSoldOut = tier.availableQuantity === 0;
-            return (
-              <button
-                key={tier.id}
-                type="button"
-                onClick={() => !isSoldOut && setSelectedTier(tier)}
-                disabled={isSoldOut}
-                className={`w-full p-4 rounded-lg border text-left transition-all ${
-                  isSoldOut
-                    ? 'bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600 opacity-60 cursor-not-allowed'
-                    : 'bg-white dark:bg-gray-700 border-gray-200 dark:border-gray-600 hover:border-blue-500 hover:shadow-md cursor-pointer'
-                }`}
-              >
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="font-medium text-gray-900 dark:text-gray-100">{tier.name}</p>
-                    <p className="text-blue-600 dark:text-blue-400 font-semibold">
-                      {formatCurrency(Number(tier.price))}
-                    </p>
+              const isSoldOut = tier.availableQuantity === 0;
+              return (
+                <button
+                  key={tier.id}
+                  type="button"
+                  onClick={() => !isSoldOut && setSelectedTier(tier)}
+                  disabled={isSoldOut}
+                  className={`w-full p-4 rounded-lg border text-left transition-all ${
+                    isSoldOut
+                      ? 'bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600 opacity-60 cursor-not-allowed'
+                      : 'bg-white dark:bg-gray-700 border-gray-200 dark:border-gray-600 hover:border-blue-500 hover:shadow-md cursor-pointer'
+                  }`}
+                >
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="font-medium text-gray-900 dark:text-gray-100">{tier.name}</p>
+                      <p className="text-blue-600 dark:text-blue-400 font-semibold">
+                        {formatCurrency(Number(tier.price))}
+                      </p>
+                    </div>
+                    <Badge variant={getAvailabilityVariant(tier)}>
+                      {tier.availableQuantity > 0 ? `${tier.availableQuantity} left` : 'Sold Out'}
+                    </Badge>
                   </div>
-                  <Badge variant={getAvailabilityVariant(tier)}>
-                    {tier.availableQuantity > 0
-                      ? `${tier.availableQuantity} left`
-                      : 'Sold Out'}
-                  </Badge>
-                </div>
-              </button>
-            );
-          })}
+                </button>
+              );
+            })}
         </div>
       </Modal>
     );
@@ -200,19 +195,10 @@ export function BookingModal({
 
         {/* Actions */}
         <div className="flex gap-3 pt-2">
-          <Button
-            type="button"
-            variant="outline"
-            onClick={handleClose}
-            className="flex-1"
-          >
+          <Button type="button" variant="outline" onClick={handleClose} className="flex-1">
             Cancel
           </Button>
-          <Button
-            type="submit"
-            isLoading={createBooking.isPending}
-            className="flex-1"
-          >
+          <Button type="submit" isLoading={createBooking.isPending} className="flex-1">
             Book Now
           </Button>
         </div>
