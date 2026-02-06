@@ -50,7 +50,7 @@ A high-performance, full-stack concert ticket booking system built with **Fastif
 
 ```bash
 # 1. Clone the repository
-git clone <your-repository-url>
+git clone https://github.com/Edielson-Rodrigues/thoughtly-take-home-assignment
 cd thoughtly-take-home-assignment
 
 # 2. Setup environment variables
