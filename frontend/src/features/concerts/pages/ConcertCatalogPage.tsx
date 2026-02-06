@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 import { useConcerts } from '../hooks/useConcerts';
 import { useConcertSSE } from '../hooks/useConcertSSE';
 import { ConcertCard } from '../components/ConcertCard';
@@ -47,12 +49,25 @@ export function ConcertCatalogPage() {
       {/* Header */}
       <header className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
-            Concert Catalog
-          </h1>
-          <p className="mt-1 text-gray-600">
-            Book your tickets for upcoming concerts
-          </p>
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
+                Concert Catalog
+              </h1>
+              <p className="mt-1 text-gray-600">
+                Book your tickets for upcoming concerts
+              </p>
+            </div>
+            <Link
+              to="/analytics"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+              </svg>
+              Analytics
+            </Link>
+          </div>
         </div>
       </header>
 
