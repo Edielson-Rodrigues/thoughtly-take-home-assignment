@@ -1,6 +1,8 @@
-import { render, screen } from '../../../test/test-utils';
 import userEvent from '@testing-library/user-event';
 import { describe, it, expect, vi } from 'vitest';
+
+import { render, screen } from '../../../test/test-utils';
+
 import { Modal } from './../Modal';
 
 describe('Modal', () => {
@@ -8,7 +10,7 @@ describe('Modal', () => {
     render(
       <Modal isOpen={false} onClose={vi.fn()} title="Test Modal">
         Content
-      </Modal>
+      </Modal>,
     );
     expect(screen.queryByText('Test Modal')).not.toBeInTheDocument();
   });
@@ -17,7 +19,7 @@ describe('Modal', () => {
     render(
       <Modal isOpen={true} onClose={vi.fn()} title="Test Modal">
         Content
-      </Modal>
+      </Modal>,
     );
     expect(screen.getByText('Test Modal')).toBeInTheDocument();
     expect(screen.getByText('Content')).toBeInTheDocument();
@@ -27,7 +29,7 @@ describe('Modal', () => {
     render(
       <Modal isOpen={true} onClose={vi.fn()} title="Modal Title">
         Content
-      </Modal>
+      </Modal>,
     );
     expect(screen.getByText('Modal Title')).toBeInTheDocument();
   });
@@ -36,7 +38,7 @@ describe('Modal', () => {
     render(
       <Modal isOpen={true} onClose={vi.fn()} title="Test">
         <div>Custom content</div>
-      </Modal>
+      </Modal>,
     );
     expect(screen.getByText('Custom content')).toBeInTheDocument();
   });
@@ -48,7 +50,7 @@ describe('Modal', () => {
     render(
       <Modal isOpen={true} onClose={handleClose} title="Test">
         Content
-      </Modal>
+      </Modal>,
     );
 
     await user.click(screen.getByRole('button'));
@@ -62,10 +64,9 @@ describe('Modal', () => {
     render(
       <Modal isOpen={true} onClose={handleClose} title="Test">
         Content
-      </Modal>
+      </Modal>,
     );
 
-    // Click the backdrop (the element with aria-hidden="true")
     const backdrop = document.querySelector('[aria-hidden="true"]');
     if (backdrop) {
       await user.click(backdrop);
@@ -77,7 +78,7 @@ describe('Modal', () => {
     render(
       <Modal isOpen={true} onClose={vi.fn()} title="Test">
         Content
-      </Modal>
+      </Modal>,
     );
     const overlay = screen.getByText('Test').closest('.fixed');
     expect(overlay).toHaveClass('z-50');
@@ -87,7 +88,7 @@ describe('Modal', () => {
     render(
       <Modal isOpen={true} onClose={vi.fn()} title="Test">
         Content
-      </Modal>
+      </Modal>,
     );
     const closeButton = screen.getByRole('button');
     expect(closeButton.querySelector('svg')).toBeInTheDocument();
@@ -97,7 +98,7 @@ describe('Modal', () => {
     render(
       <Modal isOpen={true} onClose={vi.fn()} title="Test">
         Content
-      </Modal>
+      </Modal>,
     );
     const centeredContainer = screen.getByText('Content').closest('.flex');
     expect(centeredContainer).toHaveClass('items-center', 'justify-center');

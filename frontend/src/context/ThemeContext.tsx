@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { ThemeContext } from './theme';
+
 import type { Theme } from './theme';
 
 const THEME_KEY = 'theme';
@@ -25,9 +26,5 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   const toggleTheme = () => setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
 
-  return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      {children}
-    </ThemeContext.Provider>
-  );
+  return <ThemeContext.Provider value={{ theme, toggleTheme }}>{children}</ThemeContext.Provider>;
 }

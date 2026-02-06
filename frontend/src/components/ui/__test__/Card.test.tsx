@@ -1,5 +1,7 @@
-import { render, screen } from '../../../test/test-utils';
 import { describe, it, expect } from 'vitest';
+
+import { render, screen } from '../../../test/test-utils';
+
 import { Card, CardHeader, CardContent, CardFooter } from './../Card';
 
 describe('Card', () => {
@@ -78,7 +80,7 @@ describe('Card composition', () => {
         <CardHeader>Title</CardHeader>
         <CardContent>Main content</CardContent>
         <CardFooter>Actions</CardFooter>
-      </Card>
+      </Card>,
     );
 
     expect(screen.getByText('Title')).toBeInTheDocument();

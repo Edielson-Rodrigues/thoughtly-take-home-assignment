@@ -1,9 +1,11 @@
 /* eslint-disable react-refresh/only-export-components */
-import type { ReactElement } from 'react';
-import { render, type RenderOptions } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { render, type RenderOptions } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
+
 import { ThemeProvider } from '../context/ThemeContext';
+
+import type { ReactElement } from 'react';
 
 function createTestQueryClient() {
   return new QueryClient({
@@ -32,10 +34,7 @@ function AllTheProviders({ children }: AllTheProvidersProps) {
   );
 }
 
-function customRender(
-  ui: ReactElement,
-  options?: Omit<RenderOptions, 'wrapper'>
-) {
+function customRender(ui: ReactElement, options?: Omit<RenderOptions, 'wrapper'>) {
   return render(ui, { wrapper: AllTheProviders, ...options });
 }
 

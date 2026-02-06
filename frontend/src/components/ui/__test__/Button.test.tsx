@@ -1,6 +1,8 @@
-import { render, screen } from '../../../test/test-utils';
 import userEvent from '@testing-library/user-event';
 import { describe, it, expect, vi } from 'vitest';
+
+import { render, screen } from '../../../test/test-utils';
+
 import { Button } from './../Button';
 
 describe('Button', () => {
@@ -12,10 +14,10 @@ describe('Button', () => {
   it('calls onClick when clicked', async () => {
     const handleClick = vi.fn();
     const user = userEvent.setup();
-    
+
     render(<Button onClick={handleClick}>Click</Button>);
     await user.click(screen.getByRole('button'));
-    
+
     expect(handleClick).toHaveBeenCalledOnce();
   });
 
@@ -61,10 +63,14 @@ describe('Button', () => {
   it('does not call onClick when disabled', async () => {
     const handleClick = vi.fn();
     const user = userEvent.setup();
-    
-    render(<Button disabled onClick={handleClick}>Disabled</Button>);
+
+    render(
+      <Button disabled onClick={handleClick}>
+        Disabled
+      </Button>,
+    );
     await user.click(screen.getByRole('button'));
-    
+
     expect(handleClick).not.toHaveBeenCalled();
   });
 });

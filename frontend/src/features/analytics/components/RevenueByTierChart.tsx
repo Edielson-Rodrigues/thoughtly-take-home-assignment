@@ -11,7 +11,16 @@ import {
 
 import { formatCurrency } from '../../../lib/utils';
 
-const TIER_COLORS = ['#3b82f6', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#06b6d4', '#6366f1', '#f43f5e'];
+const TIER_COLORS = [
+  '#3b82f6',
+  '#8b5cf6',
+  '#ec4899',
+  '#f59e0b',
+  '#10b981',
+  '#06b6d4',
+  '#6366f1',
+  '#f43f5e',
+];
 
 interface TierData {
   tierName: string;
@@ -20,15 +29,25 @@ interface TierData {
   percentage: number;
 }
 
-function TierTooltip({ active, payload }: { active?: boolean; payload?: Array<{ payload: TierData }> }) {
+function TierTooltip({
+  active,
+  payload,
+}: {
+  active?: boolean;
+  payload?: Array<{ payload: TierData }>;
+}) {
   if (active && payload && payload.length) {
     const data = payload[0].payload;
     return (
       <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg px-3 py-2">
         <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">{data.tierName}</p>
         <p className="text-xs text-gray-500 dark:text-gray-400">{data.concertName}</p>
-        <p className="text-sm font-bold text-blue-600 dark:text-blue-400 mt-1">{formatCurrency(data.revenue)}</p>
-        <p className="text-xs text-gray-500 dark:text-gray-400">{data.percentage.toFixed(1)}% of total</p>
+        <p className="text-sm font-bold text-blue-600 dark:text-blue-400 mt-1">
+          {formatCurrency(data.revenue)}
+        </p>
+        <p className="text-xs text-gray-500 dark:text-gray-400">
+          {data.percentage.toFixed(1)}% of total
+        </p>
       </div>
     );
   }

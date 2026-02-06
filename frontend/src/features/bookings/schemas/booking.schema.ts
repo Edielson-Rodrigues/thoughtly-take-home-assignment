@@ -6,10 +6,7 @@ import { z } from 'zod';
  * @see backend/src/presentation/http/bookings/dtos/create-booking.dto.ts
  */
 export const bookingFormSchema = z.object({
-  userEmail: z
-    .string()
-    .min(1, 'Email is required')
-    .email('Invalid email format'),
+  userEmail: z.string().min(1, 'Email is required').email('Invalid email format'),
   quantity: z
     .number()
     .int('Quantity must be a whole number')

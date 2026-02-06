@@ -94,7 +94,6 @@ export function BookingModal({ isOpen, onClose, ticketTiers, concertName }: Book
     }
   };
 
-  // Step 1: Tier Selection
   if (!selectedTier) {
     return (
       <Modal isOpen={isOpen} onClose={handleClose} title="Select Ticket Tier">
@@ -136,7 +135,6 @@ export function BookingModal({ isOpen, onClose, ticketTiers, concertName }: Book
     );
   }
 
-  // Step 2: Booking Form
   return (
     <Modal isOpen={isOpen} onClose={handleClose} title="Complete Booking">
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">

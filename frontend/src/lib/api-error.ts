@@ -34,7 +34,6 @@ export function getApiErrorCode(error: unknown): string | null {
   return null;
 }
 
-
 export function isApiErrorCode(error: unknown, code: string): boolean {
   return getApiErrorCode(error) === code;
 }

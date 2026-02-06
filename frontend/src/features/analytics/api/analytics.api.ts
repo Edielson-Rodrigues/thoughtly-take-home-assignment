@@ -1,4 +1,5 @@
 import { api } from '../../../lib/axios';
+
 import type { DashboardResponse, DashboardFilters } from '../types';
 
 export async function getDashboard(filters: DashboardFilters = {}): Promise<DashboardResponse> {

@@ -1,7 +1,10 @@
-import { render, screen } from '../../../../test/test-utils';
 import userEvent from '@testing-library/user-event';
 import { describe, it, expect } from 'vitest';
+
+import { render, screen } from '../../../../test/test-utils';
+
 import { ConcertCard } from './../ConcertCard';
+
 import type { Concert } from '../../types';
 
 const mockConcert: Concert = {
@@ -52,7 +55,6 @@ describe('ConcertCard', () => {
 
   it('renders formatted date', () => {
     render(<ConcertCard concert={mockConcert} />);
-    // The date format depends on locale, so we check for parts of it
     expect(screen.getByText(/Jul/)).toBeInTheDocument();
     expect(screen.getByText(/2026/)).toBeInTheDocument();
   });
@@ -84,7 +86,7 @@ describe('ConcertCard', () => {
   it('shows "Sold Out" button when no tickets are available', () => {
     const soldOutConcert: Concert = {
       ...mockConcert,
-      ticketTiers: mockConcert.ticketTiers?.map(tier => ({
+      ticketTiers: mockConcert.ticketTiers?.map((tier) => ({
         ...tier,
         availableQuantity: 0,
       })),
@@ -97,10 +99,9 @@ describe('ConcertCard', () => {
   it('opens booking modal when "Book Tickets" is clicked', async () => {
     const user = userEvent.setup();
     render(<ConcertCard concert={mockConcert} />);
-    
+
     await user.click(screen.getByRole('button', { name: /book tickets/i }));
-    
-    // Modal should appear with tier selection
+
     expect(screen.getByText('Select Ticket Tier')).toBeInTheDocument();
   });
 
@@ -121,11 +122,10 @@ describe('ConcertCard', () => {
 
   it('sorts ticket tiers by price (highest first)', () => {
     render(<ConcertCard concert={mockConcert} />);
-    
+
     const tiers = screen.getAllByText(/left|Sold Out/);
-    // VIP ($150) should appear before General Admission ($50)
-    const vipIndex = tiers.findIndex(el => el.textContent?.includes('75'));
-    const gaIndex = tiers.findIndex(el => el.textContent?.includes('200'));
+    const vipIndex = tiers.findIndex((el) => el.textContent?.includes('75'));
+    const gaIndex = tiers.findIndex((el) => el.textContent?.includes('200'));
     expect(vipIndex).toBeLessThan(gaIndex);
   });
 });

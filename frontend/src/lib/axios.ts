@@ -2,7 +2,7 @@ import axios, { AxiosError } from 'axios';
 
 /**
  * API Error Response type - matches backend httpErrorHandler
- * @see backend/src/core/middlewares/http-error.middleware.ts
+ * @see backend\src\core\middlewares\http-error.middleware.ts
  */
 export interface ApiErrorResponse {
   statusCode: number;
@@ -28,7 +28,7 @@ api.interceptors.request.use(
     console.debug(`[API] ${config.method?.toUpperCase()} ${config.url}`);
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => Promise.reject(error),
 );
 
 api.interceptors.response.use(
@@ -36,5 +36,5 @@ api.interceptors.response.use(
   (error: ApiError) => {
     console.error('[API Error]', error.response?.data || error.message);
     return Promise.reject(error);
-  }
+  },
 );

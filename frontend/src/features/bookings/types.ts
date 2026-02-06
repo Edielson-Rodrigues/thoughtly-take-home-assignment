@@ -41,14 +41,3 @@ export interface CreateBookingDTO {
 export interface CreateBookingResponse {
   booking: Booking;
 }
-
-/**
- * Known backend error codes for bookings
- * @see backend/src/domain/errors/ticket-tier/
- */
-export const BookingErrorCodes = {
-  SOLD_OUT: 'TicketTierOutOfStockError',
-  PAYMENT_FAILED: 'TicketTierPaymentFailedError',
-  NOT_FOUND: 'TicketTierNotFoundError',
-  INVALID_PAYMENT: 'InvalidPaymentForTicketTierError',
-} as const;

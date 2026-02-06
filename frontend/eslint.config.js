@@ -39,7 +39,6 @@ export default [
       'react-refresh': reactRefresh,
     },
     rules: {
-      // TypeScript rules (matching backend)
       '@typescript-eslint/interface-name-prefix': 'off',
       '@typescript-eslint/explicit-function-return-type': 'off',
       '@typescript-eslint/explicit-module-boundary-types': 'off',
@@ -49,11 +48,9 @@ export default [
         { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
       ],
 
-      // React rules
       ...reactHooks.configs.recommended.rules,
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
 
-      // Import order (matching backend)
       'import/order': [
         'error',
         {
@@ -76,7 +73,6 @@ export default [
         },
       ],
 
-      // Prettier (matching backend)
       'prettier/prettier': [
         'error',
         {

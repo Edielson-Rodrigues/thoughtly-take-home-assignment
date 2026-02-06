@@ -1,7 +1,9 @@
-import { render, screen, waitFor } from '../../../../test/test-utils';
 import userEvent from '@testing-library/user-event';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
+
+import { render, screen, waitFor } from '../../../../test/test-utils';
 import { BookingModal } from '../BookingModal';
+
 import type { TicketTier } from '../../../concerts/types';
 
 const mockMutateAsync = vi.fn();
@@ -58,7 +60,7 @@ describe('BookingModal', () => {
           onClose={vi.fn()}
           ticketTiers={mockTicketTiers}
           concertName="Test Concert"
-        />
+        />,
       );
       expect(screen.queryByText('Select Ticket Tier')).not.toBeInTheDocument();
     });
@@ -70,7 +72,7 @@ describe('BookingModal', () => {
           onClose={vi.fn()}
           ticketTiers={mockTicketTiers}
           concertName="Test Concert"
-        />
+        />,
       );
       expect(screen.getByText('Select Ticket Tier')).toBeInTheDocument();
     });
@@ -82,7 +84,7 @@ describe('BookingModal', () => {
           onClose={vi.fn()}
           ticketTiers={mockTicketTiers}
           concertName="Summer Music Festival"
-        />
+        />,
       );
       expect(screen.getByText('Summer Music Festival')).toBeInTheDocument();
     });
@@ -94,7 +96,7 @@ describe('BookingModal', () => {
           onClose={vi.fn()}
           ticketTiers={mockTicketTiers}
           concertName="Test Concert"
-        />
+        />,
       );
       expect(screen.getByText('VIP')).toBeInTheDocument();
       expect(screen.getByText('General Admission')).toBeInTheDocument();
@@ -108,7 +110,7 @@ describe('BookingModal', () => {
           onClose={vi.fn()}
           ticketTiers={mockTicketTiers}
           concertName="Test Concert"
-        />
+        />,
       );
       expect(screen.getByText('$150.00')).toBeInTheDocument();
       expect(screen.getByText('$50.00')).toBeInTheDocument();
@@ -121,7 +123,7 @@ describe('BookingModal', () => {
           onClose={vi.fn()}
           ticketTiers={mockTicketTiers}
           concertName="Test Concert"
-        />
+        />,
       );
       expect(screen.getByText('75 left')).toBeInTheDocument();
       expect(screen.getByText('200 left')).toBeInTheDocument();
@@ -135,7 +137,7 @@ describe('BookingModal', () => {
           onClose={vi.fn()}
           ticketTiers={mockTicketTiers}
           concertName="Test Concert"
-        />
+        />,
       );
       const soldOutButton = screen.getByText('Sold Out Tier').closest('button');
       expect(soldOutButton).toBeDisabled();
@@ -148,7 +150,7 @@ describe('BookingModal', () => {
           onClose={vi.fn()}
           ticketTiers={mockTicketTiers}
           concertName="Test Concert"
-        />
+        />,
       );
       const vipButton = screen.getByText('VIP').closest('button');
       expect(vipButton).not.toBeDisabled();
@@ -161,34 +163,32 @@ describe('BookingModal', () => {
           onClose={vi.fn()}
           ticketTiers={mockTicketTiers}
           concertName="Test Concert"
-        />
+        />,
       );
       const buttons = screen.getAllByRole('button');
-      // First tier button should be VIP ($150), not including modal close button
-      const tierButtons = buttons.filter(btn => btn.querySelector('p'));
+      const tierButtons = buttons.filter((btn) => btn.querySelector('p'));
       expect(tierButtons[0]).toHaveTextContent('VIP');
     });
 
     it('calls onClose when modal close button is clicked', async () => {
       const handleClose = vi.fn();
       const user = userEvent.setup();
-      
+
       render(
         <BookingModal
           isOpen={true}
           onClose={handleClose}
           ticketTiers={mockTicketTiers}
           concertName="Test Concert"
-        />
+        />,
       );
-      
-      // Find the modal close button (the X button)
+
       const closeButtons = screen.getAllByRole('button');
-      const modalCloseButton = closeButtons.find(btn => btn.querySelector('svg'));
+      const modalCloseButton = closeButtons.find((btn) => btn.querySelector('svg'));
       if (modalCloseButton) {
         await user.click(modalCloseButton);
       }
-      
+
       expect(handleClose).toHaveBeenCalled();
     });
   });
@@ -196,139 +196,138 @@ describe('BookingModal', () => {
   describe('Booking Form Step', () => {
     it('navigates to booking form when tier is selected', async () => {
       const user = userEvent.setup();
-      
+
       render(
         <BookingModal
           isOpen={true}
           onClose={vi.fn()}
           ticketTiers={mockTicketTiers}
           concertName="Test Concert"
-        />
+        />,
       );
-      
+
       await user.click(screen.getByText('VIP').closest('button')!);
-      
+
       expect(screen.getByText('Complete Booking')).toBeInTheDocument();
     });
 
     it('displays selected tier information', async () => {
       const user = userEvent.setup();
-      
+
       render(
         <BookingModal
           isOpen={true}
           onClose={vi.fn()}
           ticketTiers={mockTicketTiers}
           concertName="Test Concert"
-        />
+        />,
       );
-      
+
       await user.click(screen.getByText('VIP').closest('button')!);
-      
+
       expect(screen.getByText(/VIP - \$150.00 per ticket/)).toBeInTheDocument();
     });
 
     it('displays email input field', async () => {
       const user = userEvent.setup();
-      
+
       render(
         <BookingModal
           isOpen={true}
           onClose={vi.fn()}
           ticketTiers={mockTicketTiers}
           concertName="Test Concert"
-        />
+        />,
       );
-      
+
       await user.click(screen.getByText('VIP').closest('button')!);
-      
+
       expect(screen.getByLabelText('Email Address')).toBeInTheDocument();
     });
 
     it('displays quantity input field', async () => {
       const user = userEvent.setup();
-      
+
       render(
         <BookingModal
           isOpen={true}
           onClose={vi.fn()}
           ticketTiers={mockTicketTiers}
           concertName="Test Concert"
-        />
+        />,
       );
-      
+
       await user.click(screen.getByText('VIP').closest('button')!);
-      
+
       expect(screen.getByLabelText('Quantity')).toBeInTheDocument();
     });
 
     it('displays total price based on quantity', async () => {
       const user = userEvent.setup();
-      
+
       render(
         <BookingModal
           isOpen={true}
           onClose={vi.fn()}
           ticketTiers={mockTicketTiers}
           concertName="Test Concert"
-        />
+        />,
       );
-      
+
       await user.click(screen.getByText('VIP').closest('button')!);
-      
-      // Default quantity is 1, so total should be $150.00
+
       expect(screen.getByText('$150.00')).toBeInTheDocument();
     });
 
     it('has Change button to go back to tier selection', async () => {
       const user = userEvent.setup();
-      
+
       render(
         <BookingModal
           isOpen={true}
           onClose={vi.fn()}
           ticketTiers={mockTicketTiers}
           concertName="Test Concert"
-        />
+        />,
       );
-      
+
       await user.click(screen.getByText('VIP').closest('button')!);
-      
+
       expect(screen.getByText('Change')).toBeInTheDocument();
     });
 
     it('goes back to tier selection when Change is clicked', async () => {
       const user = userEvent.setup();
-      
+
       render(
         <BookingModal
           isOpen={true}
           onClose={vi.fn()}
           ticketTiers={mockTicketTiers}
           concertName="Test Concert"
-        />
+        />,
       );
-      
+
       await user.click(screen.getByText('VIP').closest('button')!);
       await user.click(screen.getByText('Change'));
-      
+
       expect(screen.getByText('Select Ticket Tier')).toBeInTheDocument();
     });
 
     it('has Cancel and Book Now buttons', async () => {
       const user = userEvent.setup();
-      
+
       render(
         <BookingModal
           isOpen={true}
           onClose={vi.fn()}
           ticketTiers={mockTicketTiers}
           concertName="Test Concert"
-        />
+        />,
       );
-      
+
       await user.click(screen.getByText('VIP').closest('button')!);
-      
+
       expect(screen.getByRole('button', { name: /cancel/i })).toBeInTheDocument();
       expect(screen.getByRole('button', { name: /book now/i })).toBeInTheDocument();
     });
@@ -336,19 +335,19 @@ describe('BookingModal', () => {
     it('calls onClose when Cancel is clicked', async () => {
       const handleClose = vi.fn();
       const user = userEvent.setup();
-      
+
       render(
         <BookingModal
           isOpen={true}
           onClose={handleClose}
           ticketTiers={mockTicketTiers}
           concertName="Test Concert"
-        />
+        />,
       );
-      
+
       await user.click(screen.getByText('VIP').closest('button')!);
       await user.click(screen.getByRole('button', { name: /cancel/i }));
-      
+
       expect(handleClose).toHaveBeenCalled();
     });
   });
@@ -356,19 +355,19 @@ describe('BookingModal', () => {
   describe('Form Validation', () => {
     it('shows validation error for empty email', async () => {
       const user = userEvent.setup();
-      
+
       render(
         <BookingModal
           isOpen={true}
           onClose={vi.fn()}
           ticketTiers={mockTicketTiers}
           concertName="Test Concert"
-        />
+        />,
       );
-      
+
       await user.click(screen.getByText('VIP').closest('button')!);
       await user.click(screen.getByRole('button', { name: /book now/i }));
-      
+
       await waitFor(() => {
         expect(screen.getByText('Email is required')).toBeInTheDocument();
       });
@@ -376,19 +375,18 @@ describe('BookingModal', () => {
 
     it('validates email format on form submission', async () => {
       const user = userEvent.setup();
-      
+
       render(
         <BookingModal
           isOpen={true}
           onClose={vi.fn()}
           ticketTiers={mockTicketTiers}
           concertName="Test Concert"
-        />
+        />,
       );
-      
+
       await user.click(screen.getByText('VIP').closest('button')!);
-      
-      // Fill with valid email to ensure form can submit
+
       const emailInput = screen.getByLabelText('Email Address');
       expect(emailInput).toHaveAttribute('type', 'email');
     });
@@ -399,25 +397,22 @@ describe('BookingModal', () => {
       mockMutateAsync.mockResolvedValueOnce({ id: 'booking-1' });
       const user = userEvent.setup();
       const handleClose = vi.fn();
-      
+
       render(
         <BookingModal
           isOpen={true}
           onClose={handleClose}
           ticketTiers={mockTicketTiers}
           concertName="Test Concert"
-        />
+        />,
       );
-      
-      // Select tier
+
       await user.click(screen.getByText('VIP').closest('button')!);
-      
-      // Fill form
+
       await user.type(screen.getByLabelText('Email Address'), 'test@example.com');
-      
-      // Submit
+
       await user.click(screen.getByRole('button', { name: /book now/i }));
-      
+
       await waitFor(() => {
         expect(mockMutateAsync).toHaveBeenCalledWith(
           expect.objectContaining({
@@ -426,7 +421,7 @@ describe('BookingModal', () => {
             quantity: 1,
             totalPrice: 150,
             currency: 'USD',
-          })
+          }),
         );
       });
     });
@@ -435,20 +430,20 @@ describe('BookingModal', () => {
       mockMutateAsync.mockResolvedValueOnce({ id: 'booking-1' });
       const user = userEvent.setup();
       const handleClose = vi.fn();
-      
+
       render(
         <BookingModal
           isOpen={true}
           onClose={handleClose}
           ticketTiers={mockTicketTiers}
           concertName="Test Concert"
-        />
+        />,
       );
-      
+
       await user.click(screen.getByText('VIP').closest('button')!);
       await user.type(screen.getByLabelText('Email Address'), 'test@example.com');
       await user.click(screen.getByRole('button', { name: /book now/i }));
-      
+
       await waitFor(() => {
         expect(handleClose).toHaveBeenCalled();
       });

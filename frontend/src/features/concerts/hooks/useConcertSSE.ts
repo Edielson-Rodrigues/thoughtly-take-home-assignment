@@ -1,7 +1,8 @@
-import { useEffect, useRef } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
+import { useEffect, useRef } from 'react';
 
 import { CONCERTS_QUERY_KEY } from './useConcerts';
+
 import type { Concert, ConcertStockUpdate } from '../types';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';

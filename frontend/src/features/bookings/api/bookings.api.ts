@@ -1,4 +1,5 @@
 import { api } from '../../../lib/axios';
+
 import type { CreateBookingDTO, CreateBookingResponse } from '../types';
 
 export const bookingsApi = {

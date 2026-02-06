@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { getDashboard } from '../api/analytics.api';
+
 import type { DashboardFilters, DashboardResponse } from '../types';
 
 export const ANALYTICS_QUERY_KEY = ['analytics', 'dashboard'] as const;

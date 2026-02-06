@@ -1,6 +1,8 @@
-import { render, screen } from '../../../test/test-utils';
 import userEvent from '@testing-library/user-event';
 import { describe, it, expect, vi } from 'vitest';
+
+import { render, screen } from '../../../test/test-utils';
+
 import { Input } from './../Input';
 
 describe('Input', () => {
@@ -42,20 +44,20 @@ describe('Input', () => {
   it('handles user input', async () => {
     const user = userEvent.setup();
     render(<Input name="email" />);
-    
+
     const input = screen.getByRole('textbox');
     await user.type(input, 'test@example.com');
-    
+
     expect(input).toHaveValue('test@example.com');
   });
 
   it('calls onChange when typing', async () => {
     const handleChange = vi.fn();
     const user = userEvent.setup();
-    
+
     render(<Input name="email" onChange={handleChange} />);
     await user.type(screen.getByRole('textbox'), 'a');
-    
+
     expect(handleChange).toHaveBeenCalled();
   });
 

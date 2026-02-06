@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { concertsApi } from '../api/concerts.api';
+
 import type { Concert } from '../types';
 
 export const CONCERTS_QUERY_KEY = ['concerts'] as const;

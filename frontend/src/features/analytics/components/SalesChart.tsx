@@ -16,15 +16,27 @@ interface SalesDataPoint {
   tickets: number;
 }
 
-function SalesChartTooltip({ active, payload }: { active?: boolean; payload?: Array<{ value: number; payload: SalesDataPoint }> }) {
+function SalesChartTooltip({
+  active,
+  payload,
+}: {
+  active?: boolean;
+  payload?: Array<{ value: number; payload: SalesDataPoint }>;
+}) {
   if (active && payload && payload.length) {
     const data = payload[0].payload;
     return (
       <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg px-3 py-2">
         <p className="text-xs font-medium text-gray-900 dark:text-gray-100">
-          {new Date(data.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+          {new Date(data.date).toLocaleDateString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric',
+          })}
         </p>
-        <p className="text-sm font-semibold text-blue-600 dark:text-blue-400">{formatCurrency(data.revenue)}</p>
+        <p className="text-sm font-semibold text-blue-600 dark:text-blue-400">
+          {formatCurrency(data.revenue)}
+        </p>
         <p className="text-xs text-gray-500 dark:text-gray-400">{data.tickets} tickets</p>
       </div>
     );
