@@ -12,4 +12,4 @@ export interface IBooking {
 }
 
 export type BookingRelations = Record<'ticketTier', boolean>;
-export type CreateBooking = Omit<IBooking, 'id' | 'createdAt'>;
+export type CreateBooking = Omit<IBooking, 'id' | 'ticketTier' | 'createdAt'>;

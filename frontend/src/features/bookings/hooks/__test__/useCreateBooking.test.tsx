@@ -150,7 +150,7 @@ describe('useCreateBooking', () => {
 
     expect(bookingsApi.create).toHaveBeenCalledTimes(1);
 
-    const secondBooking = { ...mockCreateBookingDTO, idempotencyKey: 'key-456' };
+    const secondBooking = { ...mockCreateBookingDTO, idempotencyKey: 'uuid-1234-5678-9012-3456' };
     result.current.mutate(secondBooking);
 
     await waitFor(() => {

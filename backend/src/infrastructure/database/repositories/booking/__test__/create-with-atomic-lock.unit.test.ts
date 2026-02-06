@@ -18,6 +18,7 @@ describe('Database -> Booking Repository - Create With Atomic Lock', () => {
     ticketTierId: ticketTierMock.id,
     quantity: bookingMock.quantity,
     totalPrice: bookingMock.totalPrice,
+    idempotencyKey: bookingMock.idempotencyKey,
   };
 
   const managerMock = {

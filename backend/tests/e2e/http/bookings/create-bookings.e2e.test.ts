@@ -45,7 +45,7 @@ describe('Bookings -> Create (POST /api/bookings)', () => {
       quantity: 2,
       totalPrice: 200,
       currency: 'USD',
-      idempotencyKey: faker.string.alphanumeric(16),
+      idempotencyKey: faker.string.uuid(),
     };
 
     const response = await app.inject({
@@ -90,7 +90,7 @@ describe('Bookings -> Create (POST /api/bookings)', () => {
       quantity: 2,
       totalPrice: 200,
       currency: 'USD',
-      idempotencyKey: faker.string.alphanumeric(16),
+      idempotencyKey: faker.string.uuid(),
     };
 
     const response = await app.inject({
@@ -120,7 +120,7 @@ describe('Bookings -> Create (POST /api/bookings)', () => {
       quantity: 11,
       totalPrice: 1100,
       currency: 'USD',
-      idempotencyKey: faker.string.alphanumeric(16),
+      idempotencyKey: faker.string.uuid(),
     };
 
     const response = await app.inject({
@@ -150,7 +150,7 @@ describe('Bookings -> Create (POST /api/bookings)', () => {
       quantity: 2,
       totalPrice: 200,
       currency: 'USD',
-      idempotencyKey: faker.string.alphanumeric(16),
+      idempotencyKey: faker.string.uuid(),
     };
 
     const response = await app.inject({
@@ -180,7 +180,7 @@ describe('Bookings -> Create (POST /api/bookings)', () => {
       quantity: 2,
       totalPrice: -100,
       currency: 'USD',
-      idempotencyKey: faker.string.alphanumeric(16),
+      idempotencyKey: faker.string.uuid(),
     };
 
     const response = await app.inject({
@@ -210,7 +210,7 @@ describe('Bookings -> Create (POST /api/bookings)', () => {
       quantity: 1,
       totalPrice: 100,
       currency: 'INVALID_CURRENCY',
-      idempotencyKey: faker.string.alphanumeric(16),
+      idempotencyKey: faker.string.uuid(),
     };
 
     const response = await app.inject({

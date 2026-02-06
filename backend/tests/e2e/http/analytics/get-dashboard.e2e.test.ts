@@ -34,7 +34,7 @@ describe('Analytics -> Get Dashboard (GET /api/analytics/dashboard)', () => {
       quantity: quantitySold,
       totalPrice: ticketTierMock.price * quantitySold,
       currency: 'USD',
-      idempotencyKey: faker.string.alphanumeric(16),
+      idempotencyKey: faker.string.uuid(),
       createdAt: createdAt,
     });
 

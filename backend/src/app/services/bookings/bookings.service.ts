@@ -45,6 +45,11 @@ export class BookingService {
       return cachedResult.responseBody;
     }
 
+    const savedResult = await this.bookingRepository.findOne({ idempotencyKey: data.idempotencyKey });
+    if (savedResult) {
+      return savedResult;
+    }
+
     const tier = await this.ticketTierRepository.findOne({ id: data.ticketTierId });
     if (!tier) {
       throw new TicketTierNotFoundError({ id: data.ticketTierId });

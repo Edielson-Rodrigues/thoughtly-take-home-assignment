@@ -76,9 +76,9 @@ export class BookingRepository {
   }
 
   /**
-   * Retrieves a booking by ID.
+   * Retrieves a booking by given filters.
    */
-  async find(filters: FindOptionsWhere<BookingEntity>, relations?: BookingRelations): Promise<BookingEntity | null> {
+  async findOne(filters: FindOptionsWhere<BookingEntity>, relations?: BookingRelations): Promise<BookingEntity | null> {
     return await this.typeOrmRepo.findOne({
       where: filters,
       relations: relations,

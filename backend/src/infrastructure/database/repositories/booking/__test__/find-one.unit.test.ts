@@ -30,7 +30,7 @@ describe('Database -> Booking Repository - Find', () => {
       const filters: FindOptionsWhere<BookingEntity> = { id: bookingMock.id };
       const relations: BookingRelations = { ticketTier: true };
 
-      const result = await bookingRepository.find(filters, relations);
+      const result = await bookingRepository.findOne(filters, relations);
 
       expect(result).toStrictEqual(bookingMock);
       expect(repositoryMock.findOne).toHaveBeenCalledTimes(1);
@@ -45,7 +45,7 @@ describe('Database -> Booking Repository - Find', () => {
         userEmail: bookingMock.userEmail,
       };
 
-      const result = await bookingRepository.find(filters);
+      const result = await bookingRepository.findOne(filters);
 
       expect(result).toStrictEqual(bookingMock);
       expect(repositoryMock.findOne).toHaveBeenCalledWith({
@@ -61,7 +61,7 @@ describe('Database -> Booking Repository - Find', () => {
 
       repositoryMock.findOne.mockResolvedValueOnce(null);
 
-      const result = await bookingRepository.find(filters);
+      const result = await bookingRepository.findOne(filters);
 
       expect(result).toBeNull();
       expect(repositoryMock.findOne).toHaveBeenCalledTimes(1);

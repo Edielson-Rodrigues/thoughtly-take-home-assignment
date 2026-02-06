@@ -16,7 +16,7 @@ describe('generateIdempotencyKey', () => {
 
   it('generates keys with expected format (timestamp-random)', () => {
     const key = generateIdempotencyKey();
-    expect(key).toMatch(/^[a-z0-9]+-[a-z0-9]+$/);
+    expect(key).toMatch(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i);
   });
 
   it('generates non-empty keys', () => {

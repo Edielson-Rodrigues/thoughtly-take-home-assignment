@@ -29,6 +29,7 @@ describe('Service -> Bookings -> Create', () => {
 
   const bookingRepositoryMock = {
     createWithAtomicLock: jest.fn().mockResolvedValue(bookingMock),
+    findOne: jest.fn().mockResolvedValue(null),
     deleteById: jest.fn().mockResolvedValue(undefined),
   };
 
@@ -73,6 +74,9 @@ describe('Service -> Bookings -> Create', () => {
       expect(idempotencyRepositoryMock.findByKey).toHaveBeenCalledTimes(1);
       expect(idempotencyRepositoryMock.findByKey).toHaveBeenCalledWith(createBookingData.idempotencyKey);
 
+      expect(bookingRepositoryMock.findOne).toHaveBeenCalledTimes(1);
+      expect(bookingRepositoryMock.findOne).toHaveBeenCalledWith({ idempotencyKey: createBookingData.idempotencyKey });
+
       expect(ticketTierRepositoryMock.findOne).toHaveBeenCalledTimes(1);
       expect(ticketTierRepositoryMock.findOne).toHaveBeenCalledWith({ id: createBookingData.ticketTierId });
 
@@ -82,6 +86,7 @@ describe('Service -> Bookings -> Create', () => {
         ticketTierId: createBookingData.ticketTierId,
         quantity: createBookingData.quantity,
         totalPrice: createBookingData.totalPrice,
+        idempotencyKey: createBookingData.idempotencyKey,
       });
 
       expect(paymentGatewayProviderMock.process).toHaveBeenCalledTimes(1);
@@ -122,6 +127,29 @@ describe('Service -> Bookings -> Create', () => {
       expect(idempotencyRepositoryMock.findByKey).toHaveBeenCalledTimes(1);
       expect(idempotencyRepositoryMock.findByKey).toHaveBeenCalledWith(createBookingData.idempotencyKey);
 
+      expect(bookingRepositoryMock.findOne).not.toHaveBeenCalled();
+      expect(ticketTierRepositoryMock.findOne).not.toHaveBeenCalled();
+      expect(bookingRepositoryMock.createWithAtomicLock).not.toHaveBeenCalled();
+      expect(paymentGatewayProviderMock.process).not.toHaveBeenCalled();
+      expect(concertUpdateSubjectMock.next).not.toHaveBeenCalled();
+      expect(idempotencyRepositoryMock.create).not.toHaveBeenCalled();
+
+      expect(bookingRepositoryMock.deleteById).not.toHaveBeenCalled();
+      expect(ticketTierRepositoryMock.increaseStock).not.toHaveBeenCalled();
+    });
+
+    it('should return existing booking if idempotency key exists in DB but not in cache', async () => {
+      bookingRepositoryMock.findOne.mockResolvedValueOnce(bookingMock);
+
+      const result = await bookingService.create(createBookingData, path);
+
+      expect(result).toStrictEqual(bookingMock);
+      expect(idempotencyRepositoryMock.findByKey).toHaveBeenCalledTimes(1);
+      expect(idempotencyRepositoryMock.findByKey).toHaveBeenCalledWith(createBookingData.idempotencyKey);
+
+      expect(bookingRepositoryMock.findOne).toHaveBeenCalledTimes(1);
+      expect(bookingRepositoryMock.findOne).toHaveBeenCalledWith({ idempotencyKey: createBookingData.idempotencyKey });
+
       expect(ticketTierRepositoryMock.findOne).not.toHaveBeenCalled();
       expect(bookingRepositoryMock.createWithAtomicLock).not.toHaveBeenCalled();
       expect(paymentGatewayProviderMock.process).not.toHaveBeenCalled();
@@ -141,6 +169,9 @@ describe('Service -> Bookings -> Create', () => {
 
       expect(idempotencyRepositoryMock.findByKey).toHaveBeenCalledTimes(1);
       expect(idempotencyRepositoryMock.findByKey).toHaveBeenCalledWith(createBookingData.idempotencyKey);
+
+      expect(bookingRepositoryMock.findOne).toHaveBeenCalledTimes(1);
+      expect(bookingRepositoryMock.findOne).toHaveBeenCalledWith({ idempotencyKey: createBookingData.idempotencyKey });
 
       expect(ticketTierRepositoryMock.findOne).toHaveBeenCalledTimes(1);
       expect(ticketTierRepositoryMock.findOne).toHaveBeenCalledWith({ id: createBookingData.ticketTierId });
@@ -162,6 +193,9 @@ describe('Service -> Bookings -> Create', () => {
       expect(idempotencyRepositoryMock.findByKey).toHaveBeenCalledTimes(1);
       expect(idempotencyRepositoryMock.findByKey).toHaveBeenCalledWith(invalidData.idempotencyKey);
 
+      expect(bookingRepositoryMock.findOne).toHaveBeenCalledTimes(1);
+      expect(bookingRepositoryMock.findOne).toHaveBeenCalledWith({ idempotencyKey: invalidData.idempotencyKey });
+
       expect(ticketTierRepositoryMock.findOne).toHaveBeenCalledTimes(1);
       expect(ticketTierRepositoryMock.findOne).toHaveBeenCalledWith({ id: invalidData.ticketTierId });
 
@@ -182,6 +216,9 @@ describe('Service -> Bookings -> Create', () => {
       expect(idempotencyRepositoryMock.findByKey).toHaveBeenCalledTimes(1);
       expect(idempotencyRepositoryMock.findByKey).toHaveBeenCalledWith(createBookingData.idempotencyKey);
 
+      expect(bookingRepositoryMock.findOne).toHaveBeenCalledTimes(1);
+      expect(bookingRepositoryMock.findOne).toHaveBeenCalledWith({ idempotencyKey: createBookingData.idempotencyKey });
+
       expect(ticketTierRepositoryMock.findOne).toHaveBeenCalledTimes(1);
       expect(ticketTierRepositoryMock.findOne).toHaveBeenCalledWith({ id: createBookingData.ticketTierId });
 
@@ -191,6 +228,7 @@ describe('Service -> Bookings -> Create', () => {
         ticketTierId: createBookingData.ticketTierId,
         quantity: createBookingData.quantity,
         totalPrice: createBookingData.totalPrice,
+        idempotencyKey: createBookingData.idempotencyKey,
       });
 
       expect(paymentGatewayProviderMock.process).toHaveBeenCalledTimes(1);

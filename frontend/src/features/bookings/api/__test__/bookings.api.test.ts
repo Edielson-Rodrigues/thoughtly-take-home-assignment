@@ -14,7 +14,7 @@ describe('Bookings API', () => {
     quantity: 2,
     totalPrice: 200,
     currency: 'USD',
-    idempotencyKey: 'unique-key-123',
+    idempotencyKey: 'uuid-1234-5678-9012-3456',
   };
 
   const mockCreateBookingResponse: CreateBookingResponse = {
@@ -53,7 +53,7 @@ describe('Bookings API', () => {
         quantity: 2,
         totalPrice: 200,
         currency: 'USD',
-        idempotencyKey: 'unique-key-123',
+        idempotencyKey: 'uuid-1234-5678-9012-3456',
       });
     });
 
