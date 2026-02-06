@@ -30,11 +30,11 @@ export class AnalyticsRepository {
     }
 
     if (filters.startDate) {
-      q.andWhere('booking.created_at >= :startDate', { startDate: filters.startDate });
+      q.andWhere('booking.created_at >= :startDate', { startDate: new Date(filters.startDate) });
     }
 
     if (filters.endDate) {
-      q.andWhere('booking.created_at <= :endDate', { endDate: filters.endDate });
+      q.andWhere('booking.created_at <= :endDate', { endDate: new Date(filters.endDate) });
     }
 
     return q;
@@ -95,14 +95,21 @@ export class AnalyticsRepository {
       .getRepository(BookingEntity)
       .createQueryBuilder('booking')
       .select('tier.name', 'tierName')
+      .addSelect('concert.name', 'concertName')
       .addSelect('SUM(booking.total_price)', 'revenue');
 
     query = this.applyFilters(query, filters);
 
-    const results = await query.groupBy('tier.id').addGroupBy('tier.name').orderBy('revenue', 'DESC').getRawMany();
+    const results = await query
+      .groupBy('tier.id')
+      .addGroupBy('tier.name')
+      .addGroupBy('concert.name')
+      .orderBy('revenue', 'DESC')
+      .getRawMany();
 
     return results.map((row) => ({
       tierName: row.tierName,
+      concertName: row.concertName,
       revenue: Number(row.revenue),
     }));
   }

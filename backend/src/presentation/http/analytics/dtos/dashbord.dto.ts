@@ -25,6 +25,7 @@ const TimeSeriesData = Type.Object({
 
 const RevenueByTierData = Type.Object({
   tierName: Type.String(),
+  concertName: Type.String(),
   revenue: Type.Number(),
   percentage: Type.Number(),
 });
