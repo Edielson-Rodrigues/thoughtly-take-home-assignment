@@ -1,4 +1,3 @@
-import { Logger } from '@shared/logger';
 import Redis from 'ioredis';
 import { DataSource } from 'typeorm';
 
@@ -6,6 +5,7 @@ import { BookingService } from '@app/services/bookings/bookings.service';
 import { IdempotencyRepository } from '@cache/repositories/idempotency/idempotency.repository';
 import { BookingRepository } from '@database/repositories/booking/booking.repository';
 import { TicketTierRepository } from '@database/repositories/ticket-tier/ticket-tier.repository';
+import { Logger } from '@shared/logger';
 
 import { ConcertUpdateSubject } from '../../../infrastructure/events/concert/concert-update.subject';
 import { PaymentGatewayProvider } from '../../../infrastructure/providers/payment-gateway/payment-gatewat.provider';

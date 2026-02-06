@@ -1,7 +1,7 @@
-import { Logger } from '@shared/logger';
 import Redis from 'ioredis';
 
 import { CacheConfig } from '@config/validators/cache.validator';
+import { Logger } from '@shared/logger';
 
 /**
  * Cache Provider

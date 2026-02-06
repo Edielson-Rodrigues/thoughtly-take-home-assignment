@@ -1,4 +1,3 @@
-import { SupportedCurrencies } from '@shared/supported-currencies';
 import { StatusCodes } from 'http-status-codes';
 
 import { BookingMock } from '@domain/entities/booking/__mocks__/booking.mock';
@@ -7,6 +6,7 @@ import { InvalidPaymentForTicketTierError } from '@domain/errors/ticket-tier/inv
 import { TicketTierNotFoundError } from '@domain/errors/ticket-tier/ticket-tier-not-found.error';
 import { TicketTierPaymentFailedError } from '@domain/errors/ticket-tier/ticket-tier-payment-failed.error';
 import { CreateBookingBodyDTO } from '@presentation/http/bookings/dtos/create-booking.dto';
+import { SupportedCurrencies } from '@shared/supported-currencies';
 
 import { BookingService } from '../bookings.service';
 

@@ -1,9 +1,9 @@
 import path from 'path';
 
-import { Logger } from '@shared/logger';
 import { DataSource } from 'typeorm';
 
 import { DatabaseConfig } from '@config/validators/database.validator';
+import { Logger } from '@shared/logger';
 
 /**
  * Database Provider

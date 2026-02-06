@@ -1,8 +1,8 @@
-import { SupportedCurrencies } from '@shared/supported-currencies';
 import { Static, Type } from '@sinclair/typebox';
 
 import { BookingEntity } from '@domain/entities/booking/booking.entity';
 import { BookingSchema } from '@presentation/docs/schemas/booking.schema';
+import { SupportedCurrencies } from '@shared/supported-currencies';
 
 export const CreateBookingBodySchema = Type.Object(
   {

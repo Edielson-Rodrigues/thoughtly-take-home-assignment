@@ -11,6 +11,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "strictPropertyInitialization": false,
+    "types": ["jest", "node"],
     "paths": {
       "@app/*": ["./src/app/*"],
       "@config/*": ["./src/config/*"],

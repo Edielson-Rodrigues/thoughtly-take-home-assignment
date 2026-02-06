@@ -1,5 +1,6 @@
-import { SupportedCurrencies } from '@shared/supported-currencies';
 import pino from 'pino';
+
+import { SupportedCurrencies } from '@shared/supported-currencies';
 
 export class PaymentGatewayProvider {
   constructor(private readonly logger: pino.Logger) {}

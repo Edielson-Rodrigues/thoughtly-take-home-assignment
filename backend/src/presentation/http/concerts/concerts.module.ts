@@ -1,8 +1,8 @@
-import { Logger } from '@shared/logger';
 import { DataSource } from 'typeorm';
 
 import { ConcertsService } from '@app/services/concerts/concerts.service';
 import { ConcertRepository } from '@database/repositories/concert/concert.repository';
+import { Logger } from '@shared/logger';
 
 import { ConcertUpdateSubject } from '../../../infrastructure/events/concert/concert-update.subject';
 

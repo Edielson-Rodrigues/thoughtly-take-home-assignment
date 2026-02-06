@@ -1,5 +1,4 @@
 import cors from '@fastify/cors';
-import { Logger } from '@shared/logger';
 import ajvErrors from 'ajv-errors';
 import Fastify from 'fastify';
 
@@ -8,6 +7,7 @@ import { ConfigService } from '@config/config.service';
 import { DatabaseProvider } from '@database/database.provider';
 import { buildDocs } from '@presentation/docs/build-docs';
 import { httpRoutes } from '@presentation/http/http.routes';
+import { Logger } from '@shared/logger';
 
 const createApp = (configService: ConfigService) => {
   const { environment } = configService.get('app');
