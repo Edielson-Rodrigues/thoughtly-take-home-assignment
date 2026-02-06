@@ -41,12 +41,12 @@ export class CreateConcertsTable1770184543220 implements MigrationInterface {
           },
           {
             name: 'date',
-            type: 'timestamp',
+            type: 'timestamptz',
             isNullable: false,
           },
           {
             name: 'created_at',
-            type: 'timestamp',
+            type: 'timestamptz',
             default: 'now()',
             isNullable: false,
           },

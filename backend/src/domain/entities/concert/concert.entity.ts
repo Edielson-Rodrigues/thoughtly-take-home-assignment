@@ -23,7 +23,7 @@ export class ConcertEntity implements IConcert {
   @Column({ name: 'location', type: 'varchar', length: 255, nullable: false })
   location: string;
 
-  @Column({ name: 'date', type: 'timestamp', nullable: false })
+  @Column({ name: 'date', type: 'timestamptz', nullable: false })
   date: Date;
 
   @OneToMany(() => TicketTierEntity, (tier) => tier.concert)
@@ -31,7 +31,7 @@ export class ConcertEntity implements IConcert {
 
   @CreateDateColumn({
     name: 'created_at',
-    type: 'timestamp',
+    type: 'timestamptz',
     nullable: false,
   })
   createdAt: Date;

@@ -40,7 +40,7 @@ export class BookingEntity implements IBooking {
 
   @CreateDateColumn({
     name: 'created_at',
-    type: 'timestamp',
+    type: 'timestamptz',
     nullable: false,
   })
   createdAt: Date;

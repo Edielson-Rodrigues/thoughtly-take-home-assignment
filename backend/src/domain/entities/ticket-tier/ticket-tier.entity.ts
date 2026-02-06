@@ -52,7 +52,7 @@ export class TicketTierEntity implements ITicketTier {
 
   @CreateDateColumn({
     name: 'created_at',
-    type: 'timestamp',
+    type: 'timestamptz',
     nullable: false,
   })
   createdAt: Date;

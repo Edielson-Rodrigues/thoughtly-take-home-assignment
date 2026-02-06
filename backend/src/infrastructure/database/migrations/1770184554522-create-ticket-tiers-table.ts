@@ -51,7 +51,7 @@ export class CreateTicketTiersTable1770184554522 implements MigrationInterface {
           },
           {
             name: 'created_at',
-            type: 'timestamp',
+            type: 'timestamptz',
             default: 'now()',
             isNullable: false,
           },

@@ -46,7 +46,7 @@ export class CreateBookingsTable1770184569270 implements MigrationInterface {
           },
           {
             name: 'created_at',
-            type: 'timestamp',
+            type: 'timestamptz',
             default: 'now()',
             isNullable: false,
           },
