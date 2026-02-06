@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 
-import { generateIdempotencyKey, formatCurrency } from './utils';
+import { generateIdempotencyKey, formatCurrency } from './../utils';
 
 describe('generateIdempotencyKey', () => {
   it('generates a string', () => {
