@@ -69,6 +69,7 @@ export class BookingRepository {
         ticketTierId: data.ticketTierId,
         quantity: data.quantity,
         totalPrice: data.totalPrice,
+        idempotencyKey: data.idempotencyKey,
       });
 
       return await manager.save(booking);

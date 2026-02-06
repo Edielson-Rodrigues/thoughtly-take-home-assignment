@@ -81,6 +81,7 @@ describe('Database -> Booking Repository - Create With Atomic Lock', () => {
         ticketTierId: createBookingData.ticketTierId,
         quantity: createBookingData.quantity,
         totalPrice: createBookingData.totalPrice,
+        idempotencyKey: createBookingData.idempotencyKey,
       });
       expect(managerMock.save).toHaveBeenCalledWith(bookingMock);
     });
